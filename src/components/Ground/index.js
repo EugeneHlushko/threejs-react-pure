@@ -1,35 +1,58 @@
 import {
   RepeatWrapping,
   Mesh,
-  MeshBasicMaterial,
+  MeshStandardMaterial,
   PlaneBufferGeometry,
-  DoubleSide,
 } from 'three';
 import debug from 'debug';
 
+const textureMapTypes = [
+  'map',
+  'bumpMap',
+  'roughnessMap',
+];
+
 class Ground {
   constructor(texture) {
-    debug.enable('ComponentGround');
-    debug('ComponentGround')('initing ground');
+    this.textureSize = {
+      w: 100,
+      h: 240,
+    };
+    this.anisotropyLevel = 4;
+
+    debug.enable('CpGround');
+    debug('CpGround')('initing ground, texture received: ');
+    debug('CpGround')(texture);
     this.groundGeo = new PlaneBufferGeometry(12000, 12000);
     this.texture = texture;
-    this.setTexture(this.texture);
-    debug('dev')('ComponentGround has been inited');
-  }
+    this.floorMat = new MeshStandardMaterial( {
+      roughness: 0.8,
+      color: 0xffffff,
+      metalness: 0.2,
+      bumpScale: 0.0005,
+    });
 
-  setTexture = (texture) => {
-    const currentTexture = texture;
-    currentTexture.wrapS = RepeatWrapping;
-    currentTexture.wrapT = RepeatWrapping;
-    currentTexture.repeat.set(40, 40);
-    const floorMaterial = new MeshBasicMaterial({ map: currentTexture, side: DoubleSide });
-    //groundMat.color.setHSL(0.095, 1, 0.75);
-    this.ground = new Mesh(this.groundGeo, floorMaterial);
-    this.ground.fog = true;
+    textureMapTypes.map(this.setTexture);
+
+    this.ground = new Mesh(this.groundGeo, this.floorMat);
     this.ground.rotation.x = -Math.PI / 2;
     this.ground.position.y = -30;
     this.ground.receiveShadow = true;
-    debug('ComponentGround')(this.ground);
+    debug('dev')('CpGround has been inited');
+  }
+
+  setTexture = (mapName) => {
+    const currentTexture = this.texture[mapName];
+    currentTexture.wrapS = RepeatWrapping;
+    currentTexture.wrapT = RepeatWrapping;
+    currentTexture.anisotropy = this.anisotropyLevel;
+    currentTexture.repeat.set(
+      this.textureSize.w,
+      this.textureSize.h
+    );
+
+    this.floorMat[mapName] = currentTexture;
+    this.floorMat.needsUpdate = true;
   }
 }
 export default Ground;

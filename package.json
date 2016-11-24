@@ -1,5 +1,6 @@
 {
   "name": "threejs-react-pure",
+  "repository": "https://github.com/EugeneHlushko/threejs-react-pure",
   "version": "0.1.0",
   "private": false,
   "devDependencies": {
