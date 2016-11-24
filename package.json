@@ -1,0 +1,22 @@
+{
+  "name": "threejs-react-pure",
+  "version": "0.1.0",
+  "private": false,
+  "devDependencies": {
+    "react-scripts": "0.7.0",
+    "stats.js": "^0.17.0"
+  },
+  "dependencies": {
+    "debug": "^2.3.3",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "three": "^0.82.1",
+    "three-orbit-controls": "^72.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
