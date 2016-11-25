@@ -122,11 +122,6 @@ class Game extends Component {
       hemisphereLightPowers['CityTwilight'] // intensity
     );
     this.scene.add(this.hemiLight);
-
-    // light test
-    this.light = new PointLight( 0xffd305, bulbLightPowers['300W'], 600 );
-    this.light.position.set(10, 150, 50);
-    // this.scene.add(this.light);
   };
 
   // Should only be inited in development mode.
@@ -176,7 +171,7 @@ class Game extends Component {
     cube.mask = 0xffffffff;
     cube.position.z = 100;
     cube.position.y = 20;
-    cube.castShadow = true;
+    cube.castShadow = cube.receiveShadow = true;
     this.scene.add(cube);
   };
 

@@ -31,17 +31,10 @@ class Ground {
     debug('CpGround')(texture);
     // this.groundGeo = new PlaneBufferGeometry(1000, 1000, 66, 66);
     this.texture = texture;
-    // this.floorMat = new MeshStandardMaterial( {
-    //   roughness: 0.8,
-    //   color: 0xffffff,
-    //   metalness: 0.2,
-    //   bumpScale: 0.0005,
-    // });
-    //
     this.floorMat = new MeshStandardMaterial({
       side : DoubleSide,
       color : 0xFFFFFF,
-      shininess : 5,
+      shininess : 40,
       shading : FlatShading
     });
 

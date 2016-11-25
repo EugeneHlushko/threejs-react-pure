@@ -53,7 +53,8 @@ export default class Tree {
     green.position.y = this.greenHeight / 2 + this.geoHeight;
     temporaryTree.add(green);
 
-    temporaryTree.castShadow = true;
+    // TODO: why three is not casting shadow?
+    temporaryTree.castShadow = temporaryTree.receiveShadow = true;
 
     temporaryTree.position.copy(position);
 
