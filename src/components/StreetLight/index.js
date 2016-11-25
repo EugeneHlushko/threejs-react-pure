@@ -1,5 +1,5 @@
 import {
-  SphereBufferGeometry,
+  SphereGeometry,
   CylinderGeometry,
   MeshPhongMaterial,
   MeshStandardMaterial,
@@ -30,17 +30,20 @@ export default class StreetLight {
       shading: FlatShading });
     this.pole = new Mesh(this.geometry, this.material);
 
+    // TODO: Why bulb is not glowing?
     // SphereBufferGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
-    const geometry = new SphereBufferGeometry(this.sphereSize, 32, 32);
+    const geometry = new SphereGeometry(this.sphereSize, 32, 32);
     const material = new MeshStandardMaterial({
-      color: 0xffd305,
       emissive: 0xffd305,
       emissiveIntensity: 1,
+      color: 0x000000
     });
-    this.sphere = new Mesh(geometry, material);
 
     // PointLight( color, intensity, distance, decay )
     this.light = new PointLight(0xffd305, bulbLightPowers['25W'], 500);
+    // this.light = new PointLight(0xffee88, 500, 500, 112);
+    this.light.castShadow = true;
+    this.light.add(new Mesh(geometry, material));
   }
 
   createSpawn(position) {
@@ -50,12 +53,8 @@ export default class StreetLight {
     pole.position.y = this.geoHeight / 2;
     currentLight.add(pole);
 
-    const sphere = this.sphere.clone();
-    sphere.position.y = this.sphereSize / 2 + this.geoHeight; // need 44 here
-    currentLight.add(sphere);
-
     const light = this.light.clone();
-    light.position.y = sphere.position.y;
+    light.position.y = this.sphereSize / 2 + this.geoHeight;
     currentLight.add(light);
 
     currentLight.position.copy(position);

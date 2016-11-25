@@ -14,6 +14,10 @@ import {
   Vector2,
   Vector3,
   Quaternion,
+  // TODO: Cleanup
+  Mesh,
+  CubeGeometry,
+  MeshPhongMaterial,
 } from 'three';
 import debug from 'debug';
 import { loadTexture } from '../../utils/loaders';
@@ -120,7 +124,7 @@ class Game extends Component {
     this.scene.add(this.hemiLight);
 
     // light test
-    this.light = new PointLight( 0xffd305, bulbLightPowers['25W'], 500 );
+    this.light = new PointLight( 0xffd305, bulbLightPowers['300W'], 600 );
     this.light.position.set(10, 150, 50);
     // this.scene.add(this.light);
   };
@@ -154,12 +158,26 @@ class Game extends Component {
 
   initObjects = () => {
     this.treeSpawner = new Tree();
-    this.tree = this.treeSpawner.createSpawn(new Vector3(0, 0, 0));
+    this.tree = this.treeSpawner.createSpawn(new Vector3(0, -2, 0));
     this.scene.add(this.tree);
 
     this.lightSpawner = new StreetLight();
-    this.streetLight = this.lightSpawner.createSpawn(new Vector3(40, 0, 0));
+    this.streetLight = this.lightSpawner.createSpawn(new Vector3(120, -20, 0));
     this.scene.add(this.streetLight);
+
+    const geometry = new CubeGeometry(50, 50, 50, 5);
+    const material = new MeshPhongMaterial({
+      color: 0x0b0902,
+      specular: 0x0b0902,
+      shininess: 10,
+      morphTargets: true
+    });
+    const cube = new Mesh(geometry, material);
+    cube.mask = 0xffffffff;
+    cube.position.z = 100;
+    cube.position.y = 20;
+    cube.castShadow = true;
+    this.scene.add(cube);
   };
 
   updateRotation = (rotation) => {

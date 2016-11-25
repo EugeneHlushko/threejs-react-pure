@@ -7,7 +7,7 @@ import {
   DoubleSide,
   FlatShading,
   Vector3,
-  MeshPhongMaterial,
+  MeshStandardMaterial,
 } from 'three';
 import debug from 'debug';
 import Perlin from '../../helpers/noise';
@@ -38,11 +38,10 @@ class Ground {
     //   bumpScale: 0.0005,
     // });
     //
-    this.floorMat = new MeshPhongMaterial({
-      roughness: 0.8,
+    this.floorMat = new MeshStandardMaterial({
       side : DoubleSide,
       color : 0xFFFFFF,
-      shininess : 40,
+      shininess : 5,
       shading : FlatShading
     });
 
