@@ -1,6 +1,5 @@
 {
   "name": "threejs-react-pure",
-  "repository": "https://github.com/EugeneHlushko/threejs-react-pure",
   "version": "0.1.0",
   "private": false,
   "devDependencies": {
@@ -19,5 +18,37 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EugeneHlushko/threejs-react-pure"
+  },
+  "homepage": "https://github.com/EugeneHlushko/threejs-react-pure",
+  "bugs": "https://github.com/EugeneHlushko/threejs-react-pure/issues",
+  "author": "EugeneHlushko",
+  "license": "MIT",
+  "tags": [
+    "react",
+    "flux",
+    "spa",
+    "webpack",
+    "jsx",
+    "es6",
+    "babel",
+    "threejs",
+    "webgl",
+    "scene"
+  ],
+  "keywords": [
+    "react",
+    "flux",
+    "spa",
+    "webpack",
+    "jsx",
+    "es6",
+    "babel",
+    "threejs",
+    "webgl",
+    "scene"
+  ]
 }
