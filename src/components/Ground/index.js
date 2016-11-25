@@ -20,10 +20,10 @@ class Ground {
     };
     this.anisotropyLevel = 4;
 
-    debug.enable('CpGround');
+    // debug.enable('CpGround');
     debug('CpGround')('initing ground, texture received: ');
     debug('CpGround')(texture);
-    this.groundGeo = new PlaneBufferGeometry(12000, 12000);
+    this.groundGeo = new PlaneBufferGeometry(1000, 1000, 66, 66);
     this.texture = texture;
     this.floorMat = new MeshStandardMaterial( {
       roughness: 0.8,
@@ -36,8 +36,9 @@ class Ground {
 
     this.ground = new Mesh(this.groundGeo, this.floorMat);
     this.ground.rotation.x = -Math.PI / 2;
-    this.ground.position.y = -30;
     this.ground.receiveShadow = true;
+
+    // this.wireframe = new GridHelper( 200, 40, 0x0000ff, 0x808080 );
     debug('dev')('CpGround has been inited');
   }
 

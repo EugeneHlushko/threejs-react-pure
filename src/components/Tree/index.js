@@ -42,19 +42,20 @@ export default class Tree {
     this.green = new Mesh(this.greenGeometry, this.greenMaterial);
   }
 
-  createSpawn(far, positionX) {
+  createSpawn(position) {
     const temporaryTree = new Group();
     const cylinder = this.cylinder.clone();
     // ground is positioned on Y axis -30, based on that we put item on the floor with formula
-    cylinder.position.y = -(30 - this.geoHeight / 2);
+    cylinder.position.y = this.geoHeight / 2;
     temporaryTree.add(cylinder);
 
     const green = this.green.clone();
-    green.position.y = 10;
+    green.position.y = this.greenHeight / 2 + this.geoHeight;
     temporaryTree.add(green);
 
-    temporaryTree.position.z = far;
-    temporaryTree.position.x = positionX;
+    temporaryTree.castShadow = true;
+
+    temporaryTree.position.copy(position);
 
     return temporaryTree;
   }

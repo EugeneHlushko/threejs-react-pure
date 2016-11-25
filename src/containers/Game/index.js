@@ -28,6 +28,7 @@ import {
 
 // Meshes
 import Tree from '../../components/Tree';
+import StreetLight from '../../components/StreetLight';
 import Ground from '../../components/Ground';
 
 // Textures
@@ -121,7 +122,7 @@ class Game extends Component {
     // light test
     this.light = new PointLight( 0xffd305, bulbLightPowers['25W'], 500 );
     this.light.position.set(10, 150, 50);
-    this.scene.add(this.light);
+    // this.scene.add(this.light);
   };
 
   // Should only be inited in development mode.
@@ -152,8 +153,13 @@ class Game extends Component {
   };
 
   initObjects = () => {
-    this.tree = new Tree().createSpawn(0, 0);
+    this.treeSpawner = new Tree();
+    this.tree = this.treeSpawner.createSpawn(new Vector3(0, 0, 0));
     this.scene.add(this.tree);
+
+    this.lightSpawner = new StreetLight();
+    this.streetLight = this.lightSpawner.createSpawn(new Vector3(40, 0, 0));
+    this.scene.add(this.streetLight);
   };
 
   updateRotation = (rotation) => {
