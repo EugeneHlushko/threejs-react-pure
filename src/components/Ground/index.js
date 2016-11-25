@@ -1,10 +1,16 @@
 import {
   RepeatWrapping,
   Mesh,
-  MeshStandardMaterial,
-  PlaneBufferGeometry,
+  // MeshStandardMaterial,
+  // PlaneBufferGeometry,
+  ParametricGeometry,
+  DoubleSide,
+  FlatShading,
+  Vector3,
+  MeshPhongMaterial,
 } from 'three';
 import debug from 'debug';
+import Perlin from '../../helpers/noise';
 
 const textureMapTypes = [
   'map',
@@ -15,28 +21,51 @@ const textureMapTypes = [
 class Ground {
   constructor(texture) {
     this.textureSize = {
-      w: 100,
-      h: 240,
+      w: 4,
+      h: 4,
     };
     this.anisotropyLevel = 4;
 
     // debug.enable('CpGround');
     debug('CpGround')('initing ground, texture received: ');
     debug('CpGround')(texture);
-    this.groundGeo = new PlaneBufferGeometry(1000, 1000, 66, 66);
+    // this.groundGeo = new PlaneBufferGeometry(1000, 1000, 66, 66);
     this.texture = texture;
-    this.floorMat = new MeshStandardMaterial( {
+    // this.floorMat = new MeshStandardMaterial( {
+    //   roughness: 0.8,
+    //   color: 0xffffff,
+    //   metalness: 0.2,
+    //   bumpScale: 0.0005,
+    // });
+    //
+    this.floorMat = new MeshPhongMaterial({
       roughness: 0.8,
-      color: 0xffffff,
-      metalness: 0.2,
-      bumpScale: 0.0005,
+      side : DoubleSide,
+      color : 0xFFFFFF,
+      shininess : 40,
+      shading : FlatShading
     });
 
-    textureMapTypes.map(this.setTexture);
+    const noiseScale = 3.5;
+    const size = 1000;
+    const height = 0.025;
 
-    this.ground = new Mesh(this.groundGeo, this.floorMat);
-    this.ground.rotation.x = -Math.PI / 2;
-    this.ground.receiveShadow = true;
+    const floor = new Mesh(
+      new ParametricGeometry(function(u, v) {
+        var x = u - 0.5;
+        var y = v - 0.5;
+        return new Vector3(x, y, Perlin.simplex2(x * noiseScale, y * noiseScale) * height);
+      }, 128, 128),
+      this.floorMat
+    );
+
+    floor.position.set(0, 0.0, 0);
+    floor.scale.set(size, size, size);
+    floor.rotation.set(- Math.PI * 0.5, 0, 0);
+    floor.castShadow = floor.receiveShadow = true;
+    this.ground = floor;
+
+    textureMapTypes.map(this.setTexture);
 
     // this.wireframe = new GridHelper( 200, 40, 0x0000ff, 0x808080 );
     debug('dev')('CpGround has been inited');

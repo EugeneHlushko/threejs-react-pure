@@ -32,9 +32,9 @@ import StreetLight from '../../components/StreetLight';
 import Ground from '../../components/Ground';
 
 // Textures
-import TextureDesert from '../../assets/images/hardwood2_diffuse.jpg';
-import TextureDesert_Bump from '../../assets/images/hardwood2_bump.jpg';
-import TextureDesert_Roughness from '../../assets/images/hardwood2_roughness.jpg';
+import TextureDesert from '../../assets/images/desert.png';
+import TextureDesert_Bump from '../../assets/images/desert_bump.png';
+import TextureDesert_Roughness from '../../assets/images/desert_roughness.png';
 
 // locals
 import './style.css';
@@ -115,7 +115,7 @@ class Game extends Component {
     this.hemiLight = new HemisphereLight(
       0x1c2025, // sky color
       0x251e0e, // ground color
-      hemisphereLightPowers['FullMoon'] // intensity
+      hemisphereLightPowers['CityTwilight'] // intensity
     );
     this.scene.add(this.hemiLight);
 
