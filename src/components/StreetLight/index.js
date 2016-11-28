@@ -29,6 +29,7 @@ export default class StreetLight {
       vertexColors: FaceColors,
       shading: FlatShading });
     this.pole = new Mesh(this.geometry, this.material);
+    // this.pole.castShadow = this.pole.receiveShadow = true;
 
     // TODO: Why bulb is not glowing?
     // SphereBufferGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
@@ -58,8 +59,6 @@ export default class StreetLight {
     currentLight.add(light);
 
     currentLight.position.copy(position);
-
-    currentLight.castShadow = true;
 
     return currentLight;
   }

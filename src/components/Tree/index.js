@@ -40,6 +40,9 @@ export default class Tree {
       vertexColors: FaceColors,
       shading: FlatShading });
     this.green = new Mesh(this.greenGeometry, this.greenMaterial);
+
+    this.cylinder.castShadow = this.cylinder.receiveShadow =
+      this.green.castShadow = this.green.receiveShadow = true;
   }
 
   createSpawn(position) {
