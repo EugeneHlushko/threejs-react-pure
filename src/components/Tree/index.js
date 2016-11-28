@@ -1,6 +1,7 @@
 import {
   CylinderGeometry,
   MeshPhongMaterial,
+  MeshStandardMaterial,
   FaceColors,
   FlatShading,
   Mesh,
@@ -16,7 +17,7 @@ export default class Tree {
       this.geoHeight, // height
       8 // radius segments
     );
-    this.material = new MeshPhongMaterial({
+    this.material = new MeshStandardMaterial({
       color: 0x483000,
       specular: 0x483000,
       shininess: 20,
@@ -55,9 +56,6 @@ export default class Tree {
     const green = this.green.clone();
     green.position.y = this.greenHeight / 2 + this.geoHeight;
     temporaryTree.add(green);
-
-    // TODO: why three is not casting shadow?
-    temporaryTree.castShadow = temporaryTree.receiveShadow = true;
 
     temporaryTree.position.copy(position);
 

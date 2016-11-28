@@ -108,7 +108,7 @@ export default class StreetLight {
     currentLight.add(currentLight.theGlow);
 
     currentLight.onUpdateCB = function(cameraPosition) {
-      if(!this.debug) {
+      if (!this.debug) {
         debug('CpStreetLight')('getting update');
         debug('CpStreetLight')(this);
         this.debug = 'done';
