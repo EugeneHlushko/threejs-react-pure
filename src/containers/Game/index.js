@@ -7,7 +7,6 @@ import {
   Fog,
   ReinhardToneMapping,
   HemisphereLight,
-  PointLight,
   // for Orbitcontrols
   MOUSE,
   EventDispatcher,
@@ -27,7 +26,6 @@ import OrbitControls from 'three-orbit-controls';
 // helpers
 import {
   hemisphereLightPowers,
-  bulbLightPowers,
 } from '../../helpers/units';
 
 // Meshes
@@ -50,6 +48,7 @@ class Game extends Component {
 
   constructor() {
     super();
+    // FOR TESTING
     window.TESTME = this;
     this.textures = {
       floor: {},
@@ -95,7 +94,7 @@ class Game extends Component {
       0.1,
       1500
     );
-    this.camera.position.set(-258, 347, 311);
+    this.camera.position.set(160.589269816623, 78.04453061683152, 31.993717352721255);
     this.camera.rotation.set(2.32315, -0.2972, -2.83836);
     this.scene = new Scene();
     this.scene.fog = new Fog(0x000000, 1, 2000);
@@ -156,8 +155,8 @@ class Game extends Component {
     this.tree = this.treeSpawner.createSpawn(new Vector3(0, -2, 0));
     this.scene.add(this.tree);
 
-    this.lightSpawner = new StreetLight();
-    this.streetLight = this.lightSpawner.createSpawn(new Vector3(120, -20, 0));
+    this.lightSpawner = new StreetLight(this.camera.position);
+    this.streetLight = this.lightSpawner.createSpawn(new Vector3(120, -20, 0), this.camera.position);
     this.scene.add(this.streetLight);
 
     const geometry = new CubeGeometry(50, 50, 50, 5);
@@ -175,21 +174,17 @@ class Game extends Component {
     this.scene.add(cube);
   };
 
-  updateRotation = (rotation) => {
-    this.setState({ rotation });
-  };
-
   animate = () => {
+    this.animationFrame = window.requestAnimationFrame(this.animate);
+    this.renderer.render(this.scene, this.camera);
     this.stats.begin();
     this.update();
     this.stats.end();
-    this.animationFrame = window.requestAnimationFrame(this.animate);
   };
 
   update = () => {
-    const delta = this.clock.getDelta();
-    this.tick += delta;
-    this.renderer.render(this.scene, this.camera);
+    // update glow
+    this.streetLight.onUpdateCB(this.camera.position);
   };
 
   render() {

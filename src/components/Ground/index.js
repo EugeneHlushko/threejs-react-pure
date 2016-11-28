@@ -1,7 +1,6 @@
 import {
   RepeatWrapping,
   Mesh,
-  // MeshStandardMaterial,
   // PlaneBufferGeometry,
   ParametricGeometry,
   DoubleSide,
@@ -34,7 +33,7 @@ class Ground {
     this.floorMat = new MeshStandardMaterial({
       side : DoubleSide,
       color : 0xFFFFFF,
-      shininess : 40,
+      // shininess : 40,
       shading : FlatShading
     });
 
