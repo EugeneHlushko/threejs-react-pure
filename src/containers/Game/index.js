@@ -22,6 +22,13 @@ import debug from 'debug';
 import { loadTexture } from '../../utils/loaders';
 import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
+import { setGamePause } from '../App/actions';
+import { selectGamePaused } from '../App/selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+// additional components
+import InGameMenu from '../../components/InGameMenu';
 
 // helpers
 import {
@@ -42,10 +49,6 @@ import TextureDesert_Roughness from '../../assets/images/desert_roughness.png';
 import './style.css';
 
 class Game extends Component {
-  static PropTypes = {
-    gameReadyCallback: PropTypes.func.isRequired,
-  };
-
   constructor() {
     super();
     // FOR TESTING
@@ -63,6 +66,18 @@ class Game extends Component {
       loadTexture(TextureDesert_Bump).then(texture => this.setTexture('floor', 'bumpMap', texture)),
       loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture))
     ]).then(this.setup);
+
+    debug('CtGame')(`Component mounted, received props:`);
+    debug('CtGame')(this.props);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.animationFrame);
+    this.scene = null;
+    this.renderer = null;
+    this.stats.domElement.outerHTML = '';
+    // dont forget to unbind the keys
+    this.setKeyboardBindings(false);
   }
 
   setTexture = (textureName, key, texture) => {
@@ -85,6 +100,9 @@ class Game extends Component {
 
     // start the animation
     this.animate();
+
+    // bind keys
+    this.setKeyboardBindings(true);
   };
 
   initCamera = () => {
@@ -176,6 +194,10 @@ class Game extends Component {
 
   animate = () => {
     this.animationFrame = window.requestAnimationFrame(this.animate);
+    // take care of pause
+    const { gamePaused } = this.props;
+    if (gamePaused) return;
+
     this.renderer.render(this.scene, this.camera);
     this.stats.begin();
     this.update();
@@ -187,11 +209,47 @@ class Game extends Component {
     this.streetLight.onUpdateCB(this.camera.position);
   };
 
+  setKeyboardBindings = (add = false) => {
+    if (add) {
+      document.addEventListener('keyup', this.keyPressed);
+    } else {
+      document.removeEventListener('keyup', this.keyPressed);
+    }
+  };
+
+  keyPressed = (evt) => {
+    debug('CtGame')(`Pressed a key Sir: ${evt.keyCode}`);
+    if (evt.keyCode === 27) {
+      debug('CtGame')(`Pressed game pause, trying to pause the game:`);
+      this.props.onSetGamePause(!this.props.gamePaused);
+    }
+  };
+
   render() {
+    const { gamePaused } = this.props;
     return (
-      <div ref='canvasHolder' className='game' />
+      <div>
+        { gamePaused ? <InGameMenu /> : '' }
+        <div ref='canvasHolder' className='game' />
+      </div>
     );
   };
 }
 
-export default Game;
+Game.PropTypes = {
+  isLoaded: PropTypes.func.isRequired,
+  gamePaused: PropTypes.bool,
+  onSetGamePause: PropTypes.func.isRequired,
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    onSetGamePause: (value) => dispatch(setGamePause(value)),
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  gamePaused: selectGamePaused(),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

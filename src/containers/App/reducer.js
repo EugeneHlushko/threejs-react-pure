@@ -4,7 +4,9 @@ import {
 
 // The initial state of the App
 const initialState = {
-  paused: false,
+  gamePaused: false,
+  loading: false,
+  error: false,
 };
 
 function appReducer(state = initialState, action) {
@@ -12,7 +14,7 @@ function appReducer(state = initialState, action) {
     case SET_GAME_PAUSE:
       return {
         ...state,
-        paused: action.payload,
+        gamePaused: action.payload,
       };
     default:
       return state;

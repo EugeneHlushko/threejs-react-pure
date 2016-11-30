@@ -19,11 +19,10 @@ export default class Tree {
     );
     this.material = new MeshStandardMaterial({
       color: 0x483000,
-      specular: 0x483000,
-      shininess: 20,
       morphTargets: true,
       vertexColors: FaceColors,
-      shading: FlatShading });
+      shading: FlatShading
+    });
     this.cylinder = new Mesh(this.geometry, this.material);
 
     this.greenHeight = 60;
@@ -39,7 +38,8 @@ export default class Tree {
       shininess: 20,
       morphTargets: true,
       vertexColors: FaceColors,
-      shading: FlatShading });
+      shading: FlatShading
+    });
     this.green = new Mesh(this.greenGeometry, this.greenMaterial);
 
     this.cylinder.castShadow = this.cylinder.receiveShadow =

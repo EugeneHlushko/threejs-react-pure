@@ -5,7 +5,7 @@ import './style.css';
 
 function App(props) {
   return (
-    <div>
+    <div className='container'>
       {React.Children.toArray(props.children)}
     </div>
   );
