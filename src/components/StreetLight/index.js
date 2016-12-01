@@ -44,10 +44,12 @@ export default class StreetLight {
       shading: FlatShading,
     });
     this.pole = new Mesh(this.geometry, this.material);
+    this.pole.castShadow = this.pole.receiveShadow = false;
 
-    // TODO: Why bulb is not glowing?
+    // TODO: Why bulb is not glowing? Emissive shouldnt solve this problem ?
     // SphereBufferGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
     this.sphereGeometry = new SphereGeometry(this.sphereSize, 32, 32);
+    this.glowGeometry = new SphereGeometry(this.sphereSize * this.glowScale, 32, 32);
     const sphereMaterial = new MeshStandardMaterial({
       emissive: 0xffd305,
       emissiveIntensity: 1,
@@ -57,7 +59,6 @@ export default class StreetLight {
     this.light = new PointLight(0xffd305, bulbLightPowers['40W'], 500);
     this.light.castShadow = true;
     this.lampBulb = new Mesh(this.sphereGeometry, sphereMaterial);
-    this.lampBulb.castShadow = this.lampBulb.receiveShadow = false;
     this.light.add(this.lampBulb);
 
     // generate shader metarial
@@ -89,7 +90,7 @@ export default class StreetLight {
       }
     );
 
-    this.glow = new Mesh(this.sphereGeometry.clone(), this.glowMaterial.clone());
+    this.glow = new Mesh(this.glowGeometry, this.glowMaterial);
   }
 
   createSpawn(position) {
@@ -104,7 +105,6 @@ export default class StreetLight {
 
     currentLight.theGlow = this.glow.clone();
     currentLight.theGlow.position.y = light.position.y;
-    currentLight.theGlow.scale.multiplyScalar(this.glowScale);
     currentLight.add(currentLight.theGlow);
 
     currentLight.onUpdateCB = function(cameraPosition) {
@@ -114,7 +114,6 @@ export default class StreetLight {
         this.debug = 'done';
       }
       this.theGlow.material.uniforms.viewVector.value = new Vector3().subVectors(cameraPosition, this.theGlow.position);
-
     };
 
     currentLight.position.copy(position);

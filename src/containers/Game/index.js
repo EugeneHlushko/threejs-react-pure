@@ -107,15 +107,15 @@ class Game extends Component {
 
   initCamera = () => {
     this.camera = new PerspectiveCamera(
-      50,
+      60,
       window.innerWidth / window.innerHeight,
       0.1,
-      1500
+      2000
     );
     this.camera.position.set(160.589269816623, 78.04453061683152, 31.993717352721255);
     this.camera.rotation.set(2.32315, -0.2972, -2.83836);
     this.scene = new Scene();
-    this.scene.fog = new Fog(0x000000, 1, 2000);
+    this.scene.fog = new Fog(0x111111, 1, 2000);
   };
 
   initRenderer = () => {
@@ -174,8 +174,76 @@ class Game extends Component {
     this.scene.add(this.tree);
 
     this.lightSpawner = new StreetLight(this.camera.position);
-    this.streetLight = this.lightSpawner.createSpawn(new Vector3(120, -20, 0), this.camera.position);
-    this.scene.add(this.streetLight);
+    this.streetLights = [];
+    const lightsPositions = [
+      {
+        x: -490,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -392,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -294,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -196,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -98,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 0,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 100,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 197,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 295,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 392,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 490,
+        y: -20,
+        z: -490,
+      },
+      // the central one
+      {
+        x: 100,
+        y: -20,
+        z: 0,
+      },
+    ];
+
+    lightsPositions.forEach(pos => {
+      let currentLight = this.lightSpawner.createSpawn(new Vector3(pos.x, pos.y, pos.z), this.camera.position);
+      this.scene.add(currentLight);
+      this.streetLights.push(currentLight);
+    });
 
     const geometry = new CubeGeometry(50, 50, 50, 5);
     const material = new MeshPhongMaterial({
@@ -206,7 +274,7 @@ class Game extends Component {
 
   update = () => {
     // update glow
-    this.streetLight.onUpdateCB(this.camera.position);
+    // this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
   };
 
   setKeyboardBindings = (add = false) => {

@@ -4,6 +4,7 @@ import {
   // PlaneBufferGeometry,
   ParametricGeometry,
   DoubleSide,
+  SingleSide,
   FlatShading,
   Vector3,
   MeshStandardMaterial,
@@ -31,9 +32,8 @@ class Ground {
     // this.groundGeo = new PlaneBufferGeometry(1000, 1000, 66, 66);
     this.texture = texture;
     this.floorMat = new MeshStandardMaterial({
-      side : DoubleSide,
+      side : SingleSide,
       color : 0xFFFFFF,
-      // shininess : 40,
       shading : FlatShading
     });
 
@@ -53,7 +53,7 @@ class Ground {
     floor.position.set(0, 0.0, 0);
     floor.scale.set(size, size, size);
     floor.rotation.set(- Math.PI * 0.5, 0, 0);
-    floor.castShadow = floor.receiveShadow = true;
+    floor.receiveShadow = true;
     this.ground = floor;
 
     textureMapTypes.map(this.setTexture);
