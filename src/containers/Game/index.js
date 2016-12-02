@@ -35,7 +35,7 @@ import {
   hemisphereLightPowers,
 } from '../../helpers/units';
 
-// Meshes
+// Meshes/spawners
 import Tree from '../../components/Tree';
 import StreetLight from '../../components/StreetLight';
 import Ground from '../../components/Ground';
@@ -64,7 +64,7 @@ class Game extends Component {
     Promise.all([
       loadTexture(TextureDesert).then(texture => this.setTexture('floor', 'map', texture)),
       loadTexture(TextureDesert_Bump).then(texture => this.setTexture('floor', 'bumpMap', texture)),
-      loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture))
+      loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture)),
     ]).then(this.setup);
 
     debug('CtGame')(`Component mounted, received props:`);
@@ -98,6 +98,7 @@ class Game extends Component {
     this.initGround();
     this.initObjects();
 
+    this.clock.start();
     // start the animation
     this.animate();
 
@@ -110,12 +111,12 @@ class Game extends Component {
       60,
       window.innerWidth / window.innerHeight,
       0.1,
-      2000
+      1000
     );
     this.camera.position.set(160.589269816623, 78.04453061683152, 31.993717352721255);
     this.camera.rotation.set(2.32315, -0.2972, -2.83836);
     this.scene = new Scene();
-    this.scene.fog = new Fog(0x111111, 1, 2000);
+    this.scene.fog = new Fog(0xa2d6ca, 1, 1000);
   };
 
   initRenderer = () => {
@@ -134,7 +135,7 @@ class Game extends Component {
 
   initLights = () => {
     this.hemiLight = new HemisphereLight(
-      0x1c2025, // sky color
+      0x001d2c, // sky color
       0x251e0e, // ground color
       hemisphereLightPowers['CityTwilight'] // intensity
     );
@@ -176,61 +177,61 @@ class Game extends Component {
     this.lightSpawner = new StreetLight(this.camera.position);
     this.streetLights = [];
     const lightsPositions = [
-      {
-        x: -490,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: -392,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: -294,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: -196,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: -98,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 0,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 100,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 197,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 295,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 392,
-        y: -20,
-        z: -490,
-      },
-      {
-        x: 490,
-        y: -20,
-        z: -490,
-      },
+      // {
+      //   x: -490,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: -392,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: -294,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: -196,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: -98,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 0,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 100,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 197,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 295,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 392,
+      //   y: -20,
+      //   z: -490,
+      // },
+      // {
+      //   x: 490,
+      //   y: -20,
+      //   z: -490,
+      // },
       // the central one
       {
         x: 100,
@@ -274,7 +275,7 @@ class Game extends Component {
 
   update = () => {
     // update glow
-    // this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
+    this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
   };
 
   setKeyboardBindings = (add = false) => {

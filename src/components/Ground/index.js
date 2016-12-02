@@ -24,7 +24,7 @@ class Ground {
       w: 4,
       h: 4,
     };
-    this.anisotropyLevel = 4;
+    this.anisotropyLevel = 0;
 
     // debug.enable('CpGround');
     debug('CpGround')('initing ground, texture received: ');
@@ -33,7 +33,7 @@ class Ground {
     this.texture = texture;
     this.floorMat = new MeshStandardMaterial({
       side : SingleSide,
-      color : 0xFFFFFF,
+      color : 0xa2d6ca,
       shading : FlatShading
     });
 

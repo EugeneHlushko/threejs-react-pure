@@ -3,8 +3,7 @@ uniform vec3 viewVector;
 uniform float c;
 uniform float p;
 varying float intensity;
-void main()
-{
+void main() {
   vec3 vNormal = normalize( normalMatrix * normal );
   vec3 vNormalFromView = normalize( normalMatrix * viewVector );
   intensity = pow( c - dot(vNormal, vNormalFromView), p );
