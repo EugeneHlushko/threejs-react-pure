@@ -16,6 +16,7 @@
 
 ### Small things
 - Game pause
+- Game preloader
 
 ### TODO:
 - ~~Routing~~
@@ -23,4 +24,4 @@
 - ~~Use store for storing some data across scenes~~
 - Eject from create-react-app
 - Set up dev/prod environmental builds
-- Deploy to Zeit's `now`
+- Deploy to Zeit's `now` to share your experiments with folks

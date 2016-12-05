@@ -3,7 +3,6 @@ import {
   CylinderGeometry,
   MeshPhongMaterial,
   MeshStandardMaterial,
-  FaceColors,
   FlatShading,
   Mesh,
   Group,
@@ -12,7 +11,6 @@ import {
   // shading
   FrontSide,
   AdditiveBlending,
-  DoubleSide,
   Color,
   Vector3,
 } from 'three';

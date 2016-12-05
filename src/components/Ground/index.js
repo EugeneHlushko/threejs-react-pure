@@ -3,7 +3,6 @@ import {
   Mesh,
   // PlaneBufferGeometry,
   ParametricGeometry,
-  DoubleSide,
   SingleSide,
   FlatShading,
   Vector3,

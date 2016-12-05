@@ -1,0 +1,76 @@
+.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+}
+
+.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trick {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.trick::before,
+.trick::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  animation-fill-mode: both;
+  bottom: 0;
+  right: 0;
+}
+
+.trick::before {
+  animation: 1s topToBottom linear infinite;
+  background: green;
+}
+
+.trick::after {
+  animation: 1s leftToRight linear infinite;
+  background: red;
+}
+
+@keyframes topToBottom {
+  0% {
+    bottom: 100%;
+  }
+  25% {
+    bottom: 0;
+  }
+  50% {
+    transform: translate(-50%,-50%);
+  }
+  100% {
+    transform: translate(-100%,-100%);
+  }
+}
+
+@keyframes leftToRight {
+  0% {
+    right: 100%;
+  }
+  25% {
+    right: 0;
+  }
+  50% {
+    transform: translate(50%,50%);
+  }
+  100% {
+    transform: translate(100%,100%);
+  }
+}

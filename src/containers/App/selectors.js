@@ -6,11 +6,6 @@ import { createSelector } from 'reselect';
 
 const selectGlobal = () => (state) => state.global;
 
-const selectLoading = () => createSelector(
-  selectGlobal(),
-  (globalState) => globalState.loading
-);
-
 const selectError = () => createSelector(
   selectGlobal(),
   (globalState) => globalState.error
@@ -21,9 +16,14 @@ const selectGamePaused = () => createSelector(
   (globalState) => globalState.gamePaused
 );
 
+const selectGameLoading = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.gameLoading
+);
+
 export {
   selectGlobal,
-  selectLoading,
   selectError,
   selectGamePaused,
+  selectGameLoading,
 };

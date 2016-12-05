@@ -22,8 +22,8 @@ import debug from 'debug';
 import { loadTexture } from '../../utils/loaders';
 import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
-import { setGamePause } from '../App/actions';
-import { selectGamePaused } from '../App/selectors';
+import { setGamePause, setGameLoading } from '../App/actions';
+import { selectGamePaused, selectGameLoading } from '../App/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -58,6 +58,10 @@ class Game extends Component {
     };
     debug.enable('CtGame');
   };
+
+  componentWillMount() {
+    this.props.onSetLoading(true);
+  }
 
   componentDidMount() {
     // canvas mounted, lets setup the three.js stuff
@@ -99,6 +103,10 @@ class Game extends Component {
     this.initObjects();
 
     this.clock.start();
+
+    // stop loading screen
+    this.props.onSetLoading(false);
+
     // start the animation
     this.animate();
 
@@ -306,19 +314,22 @@ class Game extends Component {
 }
 
 Game.PropTypes = {
-  isLoaded: PropTypes.func.isRequired,
+  onSetLoading: PropTypes.func.isRequired,
   gamePaused: PropTypes.bool,
+  gameLoading: PropTypes.bool,
   onSetGamePause: PropTypes.func.isRequired,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
     onSetGamePause: (value) => dispatch(setGamePause(value)),
+    onSetLoading: (value) => dispatch(setGameLoading(value)),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   gamePaused: selectGamePaused(),
+  gameLoading: selectGameLoading(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
