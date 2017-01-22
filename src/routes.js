@@ -39,6 +39,15 @@ export default function createRoutes(store) {
       },
     },
     {
+      path: '/temp',
+      name: 'temp',
+      getComponent(nextState, cb) {
+        require.ensure([], require => {
+          cb(null, require('./containers/GameTemp').default)
+        });
+      },
+    },
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

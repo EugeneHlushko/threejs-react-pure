@@ -19,9 +19,16 @@
 - Game preloader
 
 ### TODO:
-- ~~Routing~~
-- Rename game container? Add second scene
-- ~~Use store for storing some data across scenes~~
+- Properly render scene canvases, dont change dom
+- Player object?
+- Add way to include shaderpass
+- Inventory
 - Eject from create-react-app
+- Add src to path lookup to avoid `../../xx` imports
 - Set up dev/prod environmental builds
 - Deploy to Zeit's `now` to share your experiments with folks
+
+### Done:
+- ~~Routing~~
+- ~~Use store for storing some data across scenes~~
+- ~~Per scene loading, changing levels don't break the game.~~
