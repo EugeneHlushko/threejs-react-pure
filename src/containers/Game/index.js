@@ -83,11 +83,10 @@ class Game extends Component {
     return (
       <div>
         { gamePaused ? <InGameMenu /> : '' }
-        <div ref='canvasHolder' className='game'>
+        <div className='game'>
           {
             CurrentLevel ?
               <CurrentLevel
-                canvasHolder={ this.refs.canvasHolder }
                 onSetLoading={ onSetLoading } /> : null
           }
         </div>

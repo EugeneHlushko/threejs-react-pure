@@ -19,7 +19,6 @@
 - Game preloader
 
 ### TODO:
-- Properly render scene canvases, dont change dom
 - Player object?
 - Add way to include shaderpass
 - Inventory
@@ -32,3 +31,4 @@
 - ~~Routing~~
 - ~~Use store for storing some data across scenes~~
 - ~~Per scene loading, changing levels don't break the game.~~
+- ~~Properly render scene canvases, dont change dom~~

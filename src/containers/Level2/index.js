@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import {
   Clock,
   PerspectiveCamera,
@@ -30,7 +30,6 @@ import {
 
 // Meshes/spawners
 import Tree from '../../components/Tree';
-import StreetLight from '../../components/StreetLight';
 import Ground from '../../components/Ground';
 
 // Textures
@@ -38,7 +37,7 @@ import TextureDesert from '../../assets/images/desert.png';
 import TextureDesert_Bump from '../../assets/images/desert_bump.png';
 import TextureDesert_Roughness from '../../assets/images/desert_roughness.png';
 
-class Game extends Component {
+class Game extends PureComponent {
   constructor() {
     super();
     this.textures = {
@@ -113,7 +112,7 @@ class Game extends Component {
 
   initRenderer = () => {
     // RENDERER
-    this.renderer = new WebGLRenderer({ antialias: true });
+    this.renderer = new WebGLRenderer({ antialias: true, canvas: this.refs.canvas });
     this.renderer.physicallyCorrectLights = true;
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
@@ -122,7 +121,6 @@ class Game extends Component {
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.props.canvasHolder.appendChild(this.renderer.domElement);
   };
 
   initLights = () => {
@@ -164,79 +162,7 @@ class Game extends Component {
   initObjects = () => {
     this.treeSpawner = new Tree();
     this.tree = this.treeSpawner.createSpawn(new Vector3(0, -2, 0));
-    // this.scene.add(this.tree);
-
-    this.lightSpawner = new StreetLight(this.camera.position);
-    this.streetLights = [];
-    const lightsPositions = [
-      // {
-      //   x: -490,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -392,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -294,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -196,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -98,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 0,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 100,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 197,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 295,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 392,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 490,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // the central one
-      {
-        x: 100,
-        y: -20,
-        z: 0,
-      },
-    ];
-
-    lightsPositions.forEach(pos => {
-      let currentLight = this.lightSpawner.createSpawn(new Vector3(pos.x, pos.y, pos.z), this.camera.position);
-      this.scene.add(currentLight);
-      this.streetLights.push(currentLight);
-    });
+    this.scene.add(this.tree);
 
     const geometry = new CubeGeometry(50, 50, 50, 5);
     const material = new MeshPhongMaterial({
@@ -266,19 +192,15 @@ class Game extends Component {
   };
 
   update = () => {
-    // update glow
-    this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
+    // do something?
   };
 
   render() {
-    // TODO: see how to render this.renderer.domElement without dom insertion. right now i am just appending and
-    // removing the canvas from the dom to a container passed on via props.
-    return null;
+    return (<canvas ref='canvas'></canvas>);
   };
 }
 
 Game.PropTypes = {
-  canvasHolder: PropTypes.element.isRequired,
   onSetLoading: PropTypes.func.isRequired,
 };
 
