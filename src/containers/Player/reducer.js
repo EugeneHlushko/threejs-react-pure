@@ -1,4 +1,5 @@
 import {
+  PLAYER_IS_STANDING,
   PLAYER_SET_MOTION,
   PLAYER_MODIFY_HEALTH,
   PLAYER_MODIFY_SPEED,
@@ -7,9 +8,10 @@ import {
 } from './constants';
 import debug from 'debug';
 
-// The initial state of the App
+// The initial state of the Player object. Might be loaded from DB for saved profile and have different values,
+// inventory and other things in it.
 const initialState = {
-  motion: IS_STANDING,
+  motion: PLAYER_IS_STANDING,
   // Should we store position and rotation here or in level? In level looks much more performant
   health: 500,
   speed: 25,

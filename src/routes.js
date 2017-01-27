@@ -35,6 +35,8 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         require.ensure([], require => {
           cb(null, require('./containers/Game').default)
+
+          // TODO: need to load player reducer here or after loading the first level in case if player object is not available?
         });
       },
     },
