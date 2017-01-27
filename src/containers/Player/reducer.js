@@ -1,7 +1,9 @@
 import {
   PLAYER_SET_MOTION,
   PLAYER_MODIFY_HEALTH,
-  PLAYER_MODIFY_SPEED
+  PLAYER_MODIFY_SPEED,
+  PLAYER_RESET_HEALTH,
+  PLAYER_RESET_SPEED,
 } from './constants';
 import debug from 'debug';
 
@@ -30,10 +32,22 @@ function appReducer(state = initialState, action) {
         health: state.health + action.payload,
       };
     case PLAYER_MODIFY_SPEED:
-      debug('PlayerRdcr')(`Affecting health PLAYER_MODIFY_HEALTH to ${action.payload}`);
+      debug('PlayerRdcr')(`Affecting speed PLAYER_MODIFY_SPEED to ${action.payload}`);
       return {
         ...state,
-        health: state.speed + action.payload,
+        speed: state.speed + action.payload,
+      };
+    case PLAYER_RESET_HEALTH:
+      debug('PlayerRdcr')(`PLAYER_RESET_HEALTH called, setting to default ${initialState.health}`);
+      return {
+        ...state,
+        health: initialState.health
+      };
+    case PLAYER_RESET_SPEED:
+      debug('PlayerRdcr')(`PLAYER_RESET_SPEED called, setting to default ${initialState.speed}`);
+      return {
+        ...state,
+        speed: initialState.speed
       };
     default:
       return state;
