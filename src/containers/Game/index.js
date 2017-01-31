@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import debug from 'debug';
 import { setGamePause, setGameLoading } from '../App/actions';
+import { selectPlayerHealth } from '../Player/selectors';
 import { selectGamePaused, selectGameLoading } from '../App/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -111,6 +112,7 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   gamePaused: selectGamePaused(),
   gameLoading: selectGameLoading(), // TODO: do i really need this here, look at this when scene switching is done
+  playerHealth: selectPlayerHealth()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

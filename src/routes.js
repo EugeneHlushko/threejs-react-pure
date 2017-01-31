@@ -11,13 +11,6 @@ export default function createRoutes(store) {
       getComponent(nextState, cb) {
         require.ensure([], require => {
           cb(null, require('./containers/StartScreen').default)
-
-          // for saga, reducer loading]
-          // let Comments = require('./pages/Comments').default;
-          // let commentsReducer = require('./reducers/comments').default;
-          //
-          // injectAsyncReducer(store, 'comments', commentsReducer);
-          // callback(null, Comments);
         });
       },
     },

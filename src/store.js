@@ -17,7 +17,7 @@ export default function configureStore(initialState = {}, history) {
     compose(...enhancers)
   );
 
-  // TODO: use sagas for some dummy data fetch
+  // TODO: use sagas for some dummy data fetch, e.g. loading player's saved state.
   // store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {}; // Async reducer registry
 
