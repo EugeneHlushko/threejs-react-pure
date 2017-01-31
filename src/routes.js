@@ -1,13 +1,5 @@
 import { getAsyncInjectors } from './utils/asyncInjectors';
 
-const errorLoading = (err) => {
-  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
-};
-
-const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default);
-};
-
 export default function createRoutes(store) {
   // create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store);
@@ -34,9 +26,10 @@ export default function createRoutes(store) {
       name: 'game',
       getComponent(nextState, cb) {
         require.ensure([], require => {
-          cb(null, require('./containers/Game').default)
+          const playerReducer = require('./containers/Player/reducer').default;
+          injectReducer(store, 'player', playerReducer);
 
-          // TODO: need to load player reducer here or after loading the first level in case if player object is not available?
+          cb(null, require('./containers/Game').default)
         });
       },
     },

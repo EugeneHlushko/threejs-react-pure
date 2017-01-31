@@ -17,10 +17,11 @@ export function checkStore(store) {
 
 // Inject an asynchronously loaded reducer
 export function injectAsyncReducer(store, isValid) {
-  return function injectReducer(name, asyncReducer) {
+  return function injectReducer(store, name, asyncReducer) {
     if (!isValid) checkStore(store);
 
     if (!(isString(name) && !isEmpty(name) && isFunction(asyncReducer))) {
+      console.log(name, asyncReducer);
       throw new Error('(app/utils...) injectAsyncReducer: Expected `asyncReducer` to be a reducer function');
     }
 

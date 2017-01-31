@@ -9,5 +9,5 @@ const PLAYER_MODIFY_HEALTH = 'App/Player/constants/PLAYER_MODIFY_HEALTH';
 const PLAYER_MODIFY_SPEED = 'App/Player/constants/PLAYER_MODIFY_SPEED';
 
 // resetting actions
-const PLAYER_RESET_SPEED = 'App/Player/constants/PLAYER_RESET_SPEED';
+const PLAYER_RESET_HEALTH = 'App/Player/constants/PLAYER_RESET_HEALTH';
 const PLAYER_RESET_SPEED = 'App/Player/constants/PLAYER_RESET_SPEED';

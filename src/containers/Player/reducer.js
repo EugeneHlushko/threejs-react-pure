@@ -17,7 +17,7 @@ const initialState = {
   speed: 25,
 };
 
-function appReducer(state = initialState, action) {
+function playerReducer(state = initialState, action) {
   debug.enable('PlayerRdcr');
 
   switch (action.type) {
@@ -56,4 +56,4 @@ function appReducer(state = initialState, action) {
   }
 }
 
-export default appReducer;
+export default playerReducer;
