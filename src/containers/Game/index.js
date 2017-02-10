@@ -37,7 +37,7 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
-    // TODO: Cleanup any global animationframe requests, or keyboard listeners e.g. ESC etc.
+    // Cleanup any global keyboard listeners e.g.
     this.setKeyboardBindings(false);
   }
 
@@ -68,6 +68,7 @@ class Game extends Component {
   };
 
   getLevel = (level) => {
+    this.setState({ CurrentLevel: false });
     this.props.onSetLoading(true);
     debug('CtGame')(`Get level called with props: ${level}`);
     staticLevelMap[level].getComponent(this.levelLoadedCb);
