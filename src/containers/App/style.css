@@ -11,6 +11,12 @@ body {
   color: #FF3300;
 }
 
+div,
+a,
+p {
+  box-sizing: border-box;
+}
+
 .container {
   position: relative;
 }

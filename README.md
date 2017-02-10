@@ -35,6 +35,7 @@
     - Talking to Server, i will just add dummy methods for sagas
 
 #### TODO:
+- Dialog, need to do any kind of visual interaction at development stage, maybe not needed later.
 - Player object
 - Player controls? is it in scope?
 - Simple default level switch to next

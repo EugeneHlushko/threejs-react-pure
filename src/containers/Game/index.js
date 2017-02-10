@@ -10,6 +10,7 @@ import staticLevelMap from '../../helpers/staticLevelMap';
 
 // additional components
 import InGameMenu from '../../components/InGameMenu';
+import Dialog from '../../components/Dialog';
 
 // locals
 import './style.css';
@@ -68,15 +69,23 @@ class Game extends Component {
   };
 
   getLevel = (level) => {
-    this.setState({ CurrentLevel: false });
+    // remove current level first
+    this.setState({ CurrentLevel: null });
+    // trigger loading state
     this.props.onSetLoading(true);
     debug('CtGame')(`Get level called with props: ${level}`);
+    // get component from the map
     staticLevelMap[level].getComponent(this.levelLoadedCb);
   };
 
   levelLoadedCb = (loadedLevel) => {
     debug('CtGame')(`Require ensure CB called`);
     this.setState({ CurrentLevel: loadedLevel });
+  };
+
+  answerHandler = (answer) => {
+    debug('CtGame')(`Answer received`);
+    debug('CtGame')(answer);
   };
 
   render() {
@@ -91,6 +100,10 @@ class Game extends Component {
               <CurrentLevel
                 onSetLoading={ onSetLoading } /> : null
           }
+          <Dialog
+            text={ 'jfhsa fjsa gfjsa jfsa jfs ajfh sajhfsja fjsah fjhsa Dolor sit amet?' }
+            options={ [ { id: 'fsa', text: 'Option A'}, { id: 'fsass', text: 'Option B'} ] }
+            answerCallBack={ this.answerHandler } />
         </div>
       </div>
     );
