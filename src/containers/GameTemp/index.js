@@ -20,7 +20,7 @@ import {
   // effect composer testing
 } from 'three';
 import debug from 'debug';
-import { loadTexture } from '../../utils/loaders';
+import { loadTexture } from 'utils/loaders';
 import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
 import { setGamePause, setGameLoading } from '../App/actions';
@@ -29,22 +29,22 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 // additional components
-import InGameMenu from '../../components/InGameMenu';
+import InGameMenu from 'components/InGameMenu';
 
 // helpers
 import {
   hemisphereLightPowers,
-} from '../../helpers/units';
+} from 'helpers/units';
 
 // Meshes/spawners
-import Tree from '../../components/Tree';
-import StreetLight from '../../components/StreetLight';
-import Ground from '../../components/Ground';
+import Tree from 'components/Tree';
+import StreetLight from 'components/StreetLight';
+import Ground from 'components/Ground';
 
 // Textures
-import TextureDesert from '../../assets/images/desert.png';
-import TextureDesert_Bump from '../../assets/images/desert_bump.png';
-import TextureDesert_Roughness from '../../assets/images/desert_roughness.png';
+import TextureDesert from 'assets/images/desert.png';
+import TextureDesert_Bump from 'assets/images/desert_bump.png';
+import TextureDesert_Roughness from 'assets/images/desert_roughness.png';
 
 // locals
 import './style.css';

@@ -6,11 +6,11 @@ import { selectGamePaused, selectGameLoading } from '../App/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import staticLevelMap from '../../helpers/staticLevelMap';
+import staticLevelMap from 'helpers/staticLevelMap';
 
 // additional components
-import InGameMenu from '../../components/InGameMenu';
-import Dialog from '../../components/Dialog';
+import InGameMenu from 'components/InGameMenu';
+import Dialog from 'components/Dialog';
 
 // locals
 import './style.css';

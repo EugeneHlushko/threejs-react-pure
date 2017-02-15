@@ -15,9 +15,9 @@ import {
   Vector3,
 } from 'three';
 import debug from 'debug';
-import { bulbLightPowers } from '../../helpers/units';
-import glowFragmentShader from '../../shaders/glow/GlowFragment';
-import glowVertexShader from '../../shaders/glow/GlowVertex';
+import { bulbLightPowers } from 'helpers/units';
+import glowFragmentShader from 'shaders/glow/GlowFragment';
+import glowVertexShader from 'shaders/glow/GlowVertex';
 
 export default class StreetLight {
   // Need cameraPosition for glow effect shader

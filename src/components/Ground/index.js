@@ -9,7 +9,7 @@ import {
   MeshStandardMaterial,
 } from 'three';
 import debug from 'debug';
-import Perlin from '../../helpers/noise';
+import Perlin from 'helpers/noise';
 
 const textureMapTypes = [
   'map',

@@ -19,24 +19,24 @@ import {
   MeshPhongMaterial,
 } from 'three';
 import debug from 'debug';
-import { loadTexture } from '../../utils/loaders';
+import { loadTexture } from 'utils/loaders';
 import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
 
 // helpers
 import {
   hemisphereLightPowers,
-} from '../../helpers/units';
+} from 'helpers/units';
 
 // Meshes/spawners
-import Tree from '../../components/Tree';
-import StreetLight from '../../components/StreetLight';
-import Ground from '../../components/Ground';
+import Tree from 'components/Tree';
+import StreetLight from 'components/StreetLight';
+import Ground from 'components/Ground';
 
 // Textures
-import TextureDesert from '../../assets/images/desert.png';
-import TextureDesert_Bump from '../../assets/images/desert_bump.png';
-import TextureDesert_Roughness from '../../assets/images/desert_roughness.png';
+import TextureDesert from 'assets/images/desert.png';
+import TextureDesert_Bump from 'assets/images/desert_bump.png';
+import TextureDesert_Roughness from 'assets/images/desert_roughness.png';
 
 class Game extends PureComponent {
   constructor() {

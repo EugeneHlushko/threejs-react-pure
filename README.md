@@ -18,7 +18,9 @@
 
 ### Small things
 - Game pause
-- Game preloader
+- Game pre loader
+- Shader multi-pass system (TBD)
+- Tests covering functionality (TBD)
 
 #### Scope of this boilerplate
     - React and three.js
@@ -30,9 +32,12 @@
     - Shader pre loading
     - Multiple shader passes
 
-#### Out of scope for this boilerplate
+#### Under consideration to be in scope
     - Player controls, you might not need a player object in the experiments
     - Talking to Server, i will just add dummy methods for sagas
+
+#### Out of scope
+    - TBD
 
 #### TODO:
 - Dialog, need to do any kind of visual interaction at development stage, maybe not needed later.
@@ -41,14 +46,17 @@
 - Simple default level switch to next
 - Add way to include shaderpass
 - Add a way to preload and use models in scenes for objects
+- Reactotron or similar for most convinient redux development experience
 - Consider GSAP for tweens
 - Inventory
-- Eject from create-react-app. Why?
-- Add src to path lookup to avoid `../../xx` imports
+- Eject from create-react-app. Under consideration.
+  - Add node-sass, change styles from pure css to scss. Still not sure on this
+  - Add more rules for webpack, go with webpack 2. Maybe CRA has it by that time.
 - Set up dev/prod environmental builds
 - Deploy to Zeit's `now` to share your experiments with folks
 
 #### Done:
+- ~~Add src to path lookup to avoid `../../xx` imports~~
 - ~~Define scope for BP~~
 - ~~Player reducer~~
 - ~~Routing~~
