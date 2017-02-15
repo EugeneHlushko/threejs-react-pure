@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import ExtendableLevel from 'containers/ExtendableLevel';
+
 import {
   Clock,
   PerspectiveCamera,
@@ -7,12 +8,7 @@ import {
   Fog,
   ReinhardToneMapping,
   HemisphereLight,
-  // for Orbitcontrols
-  MOUSE,
-  EventDispatcher,
-  Vector2,
   Vector3,
-  Quaternion,
   // TODO: Cleanup
   Mesh,
   CubeGeometry,
@@ -20,8 +16,6 @@ import {
 } from 'three';
 import debug from 'debug';
 import { loadTexture } from 'utils/loaders';
-import Stats from 'stats.js';
-import OrbitControls from 'three-orbit-controls';
 
 // helpers
 import {
@@ -38,7 +32,7 @@ import TextureDesert from 'assets/images/desert.png';
 import TextureDesert_Bump from 'assets/images/desert_bump.png';
 import TextureDesert_Roughness from 'assets/images/desert_roughness.png';
 
-class Game extends PureComponent {
+class Level1 extends ExtendableLevel {
   constructor() {
     super();
     this.textures = {
@@ -46,10 +40,6 @@ class Game extends PureComponent {
     };
     debug.enable('Level1');
   };
-
-  componentWillMount() {
-    this.props.onSetLoading(true);
-  }
 
   componentDidMount() {
     // canvas mounted, lets setup the three.js stuff
@@ -62,19 +52,6 @@ class Game extends PureComponent {
     debug('Level1')(`Component mounted, received props:`);
     debug('Level1')(this.props);
   }
-
-  componentWillUnmount() {
-    // standard procedure, trying to avoid any memory leaks
-    cancelAnimationFrame(this.animationFrame);
-    this.scene = null;
-    this.renderer = null;
-    this.stats.domElement.outerHTML = '';
-  }
-
-  setTexture = (textureName, key, texture) => {
-    debug('Level1')(`Loaded texture, setting: ${textureName}, ${key}`);
-    this.textures[textureName][key] = texture;
-  };
 
   setup = () => {
     // save clock to context
@@ -131,24 +108,6 @@ class Game extends PureComponent {
       hemisphereLightPowers['CityTwilight'] // intensity
     );
     this.scene.add(this.hemiLight);
-  };
-
-  // Should only be inited in development mode.
-  initStats = () => {
-    this.stats = new Stats(0);
-    document.body.appendChild(this.stats.dom);
-  };
-
-  initControls = () => {
-    const initializedOC = OrbitControls({
-      MOUSE,
-      EventDispatcher,
-      Vector2,
-      Vector3,
-      Quaternion,
-      PerspectiveCamera,
-    });
-    this.orbitControls = new initializedOC(this.camera);
   };
 
   // GROUND
@@ -252,30 +211,11 @@ class Game extends PureComponent {
     this.scene.add(cube);
   };
 
-  animate = () => {
-    this.animationFrame = window.requestAnimationFrame(this.animate);
-    // take care of pause
-    const { gamePaused } = this.props;
-    if (gamePaused) return;
-
-    this.renderer.render(this.scene, this.camera);
-    this.stats.begin();
-    this.update();
-    this.stats.end();
-  };
-
+  // being called with animate in extended class
   update = () => {
     // update glow
     this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
   };
-
-  render() {
-    return (<canvas ref='canvas'></canvas>);
-  };
 }
 
-Game.PropTypes = {
-  onSetLoading: PropTypes.func.isRequired,
-};
-
-export default Game;
+export default Level1;

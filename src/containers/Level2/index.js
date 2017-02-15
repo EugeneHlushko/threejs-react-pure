@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import ExtendableLevel from 'containers/ExtendableLevel';
+
 import {
   Clock,
   PerspectiveCamera,
@@ -6,13 +7,7 @@ import {
   Scene,
   Fog,
   ReinhardToneMapping,
-  HemisphereLight,
-  // for Orbitcontrols
-  MOUSE,
-  EventDispatcher,
-  Vector2,
   Vector3,
-  Quaternion,
   // TODO: Cleanup
   Mesh,
   CubeGeometry,
@@ -20,13 +15,6 @@ import {
 } from 'three';
 import debug from 'debug';
 import { loadTexture } from 'utils/loaders';
-import Stats from 'stats.js';
-import OrbitControls from 'three-orbit-controls';
-
-// helpers
-import {
-  hemisphereLightPowers,
-} from 'helpers/units';
 
 // Meshes/spawners
 import Tree from 'components/Tree';
@@ -37,18 +25,14 @@ import TextureDesert from 'assets/images/desert.png';
 import TextureDesert_Bump from 'assets/images/desert_bump.png';
 import TextureDesert_Roughness from 'assets/images/desert_roughness.png';
 
-class Game extends PureComponent {
+class Level2 extends ExtendableLevel {
   constructor() {
     super();
     this.textures = {
       floor: {},
     };
-    debug.enable('Level1');
+    debug.enable('Level2');
   };
-
-  componentWillMount() {
-    this.props.onSetLoading(true);
-  }
 
   componentDidMount() {
     // canvas mounted, lets setup the three.js stuff
@@ -58,22 +42,9 @@ class Game extends PureComponent {
       loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture)),
     ]).then(this.setup);
 
-    debug('Level1')(`Component mounted, received props:`);
-    debug('Level1')(this.props);
+    debug('Level2')(`Component mounted, received props:`);
+    debug('Level2')(this.props);
   }
-
-  componentWillUnmount() {
-    // standard procedure, trying to avoid any memory leaks
-    cancelAnimationFrame(this.animationFrame);
-    this.scene = null;
-    this.renderer = null;
-    this.stats.domElement.outerHTML = '';
-  }
-
-  setTexture = (textureName, key, texture) => {
-    debug('Level1')(`Loaded texture, setting: ${textureName}, ${key}`);
-    this.textures[textureName][key] = texture;
-  };
 
   setup = () => {
     // save clock to context
@@ -82,7 +53,6 @@ class Game extends PureComponent {
     // init camera and renderer
     this.initCamera();
     this.initRenderer();
-    this.initLights();
     this.initStats();
     this.initControls();
     this.initGround();
@@ -123,33 +93,6 @@ class Game extends PureComponent {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
-  initLights = () => {
-    this.hemiLight = new HemisphereLight(
-      0x001d2c, // sky color
-      0x251e0e, // ground color
-      hemisphereLightPowers['CityTwilight'] // intensity
-    );
-    this.scene.add(this.hemiLight);
-  };
-
-  // Should only be inited in development mode.
-  initStats = () => {
-    this.stats = new Stats(0);
-    document.body.appendChild(this.stats.dom);
-  };
-
-  initControls = () => {
-    const initializedOC = OrbitControls({
-      MOUSE,
-      EventDispatcher,
-      Vector2,
-      Vector3,
-      Quaternion,
-      PerspectiveCamera,
-    });
-    this.orbitControls = new initializedOC(this.camera);
-  };
-
   // GROUND
   initGround = () => {
     this.groundHolder = new Ground(this.textures.floor);
@@ -178,30 +121,6 @@ class Game extends PureComponent {
     cube.castShadow = cube.receiveShadow = true;
     this.scene.add(cube);
   };
-
-  animate = () => {
-    this.animationFrame = window.requestAnimationFrame(this.animate);
-    // take care of pause
-    const { gamePaused } = this.props;
-    if (gamePaused) return;
-
-    this.renderer.render(this.scene, this.camera);
-    this.stats.begin();
-    this.update();
-    this.stats.end();
-  };
-
-  update = () => {
-    // do something?
-  };
-
-  render() {
-    return (<canvas ref='canvas'></canvas>);
-  };
 }
 
-Game.PropTypes = {
-  onSetLoading: PropTypes.func.isRequired,
-};
-
-export default Game;
+export default Level2;
