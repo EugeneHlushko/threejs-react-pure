@@ -31,7 +31,6 @@ class Level2 extends ExtendableLevel {
     this.textures = {
       floor: {},
     };
-    debug.enable('Level2');
   };
 
   componentDidMount() {
@@ -42,8 +41,8 @@ class Level2 extends ExtendableLevel {
       loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture)),
     ]).then(this.setup);
 
-    debug('Level2')(`Component mounted, received props:`);
-    debug('Level2')(this.props);
+    debug('Current Level')(`Component mounted, received props for Level2:`);
+    debug('Current Level')(this.props);
   }
 
   setup = () => {

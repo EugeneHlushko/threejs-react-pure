@@ -1,4 +1,4 @@
-# WebGL boilerplate for experiments powered by React ES7/ES7 and Three.js 
+# WebGL boilerplate for scene based experiments powered by React ES7/ES7 and Three.js 
 
 ### Running the boilerplate
 1) `npm i` - first install dependencies  
@@ -35,6 +35,7 @@
 #### Under consideration to be in scope
     - Player controls, you might not need a player object in the experiments
     - Talking to Server, i will just add dummy methods for sagas
+    - Mongo and small api on server side for save/load?
 
 #### Out of scope
     - TBD
@@ -52,6 +53,7 @@
 - Eject from create-react-app. Under consideration.
   - Add node-sass, change styles from pure css to scss. Still not sure on this
   - Add more rules for webpack, go with webpack 2. Maybe CRA has it by that time.
+  - Extend eslint airbnb config
 - Set up dev/prod environmental builds
 - Deploy to Zeit's `now` to share your experiments with folks
 

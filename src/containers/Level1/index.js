@@ -49,8 +49,8 @@ class Level1 extends ExtendableLevel {
       loadTexture(TextureDesert_Roughness).then(texture => this.setTexture('floor', 'roughnessMap', texture)),
     ]).then(this.setup);
 
-    debug('Level1')(`Component mounted, received props:`);
-    debug('Level1')(this.props);
+    debug('CurrentLevel')(`Component mounted, received props for Level1:`);
+    debug('CurrentLevel')(this.props);
   }
 
   setup = () => {

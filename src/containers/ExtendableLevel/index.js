@@ -15,6 +15,11 @@ import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
 
 class ExtendableLevel extends PureComponent {
+  constructor() {
+    super();
+    debug.enable('CurrentLevel');
+  };
+
   componentWillMount() {
     this.props.onSetLoading(true);
     this.bindEvents(true);
@@ -48,7 +53,7 @@ class ExtendableLevel extends PureComponent {
   };
 
   setTexture = (textureName, key, texture) => {
-    debug('App')(`Loaded texture, setting: ${textureName}, ${key}`);
+    debug('CurrentLevel')(`Loaded texture, setting: ${textureName}, ${key}`);
     this.textures[textureName][key] = texture;
   };
 
