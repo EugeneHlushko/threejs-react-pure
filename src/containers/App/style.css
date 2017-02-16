@@ -17,10 +17,6 @@ p {
   box-sizing: border-box;
 }
 
-.container {
-  position: relative;
-}
-
 .mainMenu {
   position: fixed;
   left: 50%;

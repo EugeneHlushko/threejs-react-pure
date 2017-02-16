@@ -1,27 +1,32 @@
-.dialog {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  padding: 20px;
-}
-
 .text {
-  width: 80%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  padding: 1em;
+  font-size: 2em;
+  color: #FFF;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  min-height: 25%;
 }
 
 .answers {
-  width: 20%;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-left: 20px;
+  position: absolute;
+  width: 30%;
+  right: 0;
+  top: 40%;
+  padding: 1em;
+  font-size: 2.5em;
 }
 
 .answers a {
+  cursor: pointer;
+  display: block;
   color: #FFF;
+  text-decoration: none;
+  margin-bottom: 0.5em;
 }
 
 .answers a:hover {
-  color: #FF5300;
+  color: #FFFEAF;
 }

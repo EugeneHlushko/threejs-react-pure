@@ -3,7 +3,7 @@ import debug from 'debug';
 
 import {
   PerspectiveCamera,
-  // for Orbitcontrols
+  // TODO:Controls Orbit Controls refactoring subject
   MOUSE,
   EventDispatcher,
   Vector2,
@@ -57,12 +57,13 @@ class ExtendableLevel extends PureComponent {
     this.textures[textureName][key] = texture;
   };
 
-  // Should only be inited in development mode.
+  // TODO:Eject Should only be inited in development mode. Need to receive environmental param
   initStats = () => {
     this.stats = new Stats(0);
     document.body.appendChild(this.stats.dom);
   };
 
+  // TODO:Controls Orbit controls will be removed most likely
   initControls = () => {
     const initializedOC = OrbitControls({
       MOUSE,
@@ -87,6 +88,7 @@ class ExtendableLevel extends PureComponent {
     this.stats.end();
   };
 
+  // Implemented in the Level, might need level specific shader, geometry or other things update.
   update() {}
 
   render() {

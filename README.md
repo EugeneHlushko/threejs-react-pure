@@ -38,12 +38,14 @@
     - Mongo and small api on server side for save/load?
 
 #### Out of scope
-    - TBD
+    - World Gravity
+    - Player/enemy Jumping
 
 #### TODO:
-- Dialog, need to do any kind of visual interaction at development stage, maybe not needed later.
-- Player object
-- Player controls? is it in scope?
+- Dialog: text and options, callback for choice done.
+- Player object: TODO: Receive Model from modeler;
+- Player controls: moving player over the map with wasd
+- Player movement: move over terrain height
 - Simple default level switch to next
 - Add way to include shaderpass
 - Add a way to preload and use models in scenes for objects

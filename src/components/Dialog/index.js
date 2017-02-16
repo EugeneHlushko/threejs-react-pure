@@ -17,8 +17,8 @@ class Dialog extends Component {
                 options.map((item, index) => <a
                   key={ index }
                   onClick={ () => answerCallBack(item) }>
-                    { item.text }
-                  </a>)
+                  { item.text }
+                </a>)
               }
             </div> : ''
         }
