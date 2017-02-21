@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import debug from 'debug';
 import { setGamePause, setGameLoading } from '../App/actions';
-import { selectPlayerHealth } from '../Player/selectors';
+import { selectPlayerHealth, selectPlayerAtScene } from '../Player/selectors';
 import { selectGamePaused, selectGameLoading } from '../App/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -21,14 +21,13 @@ class Game extends Component {
     this.state = {
       CurrentLevel: null,
     };
-    // FOR TESTING
-    window.TESTME = this;
     debug.enable('CtGame');
   };
 
   componentDidMount() {
     // TODO: get the current level by props and start initializing it
     // Pretend to render Level1 for now. We will see how to get webpack dynamic import later
+    this.getLevel(this.props.atScene);
 
     // Start listening to esc key or other hotkeys that are available throughout all of the game.
     // TODO: Need to take care of the case when scene is still loading and we are pressing esc, ESC should not
@@ -91,6 +90,8 @@ class Game extends Component {
   render() {
     const { gamePaused, onSetLoading } = this.props;
     const { CurrentLevel } = this.state;
+    // TODO: dialog needs to be called only on some actions
+    const dialog = true;
     return (
       <div>
         { gamePaused ? <InGameMenu /> : '' }
@@ -100,10 +101,13 @@ class Game extends Component {
               <CurrentLevel
                 onSetLoading={ onSetLoading } /> : null
           }
-          <Dialog
-            text={ 'jfhsa fjsa gfjsa jfsa jfs ajfh sajhfsja fjsah fjhsa Dolor sit amet?' }
-            options={ [ { id: 'fsa', text: 'Option A'}, { id: 'fsass', text: 'Option B'} ] }
-            answerCallBack={ this.answerHandler } />
+          {
+            dialog ?
+              <Dialog
+                text={ 'WASD to move. U to load level1, O to load level 2' }
+                options={ [ { id: 'fsa', text: 'Got it!'}, { id: 'fsass', text: 'Dont show again'} ] }
+                answerCallBack={ this.answerHandler } /> : ''
+          }
         </div>
       </div>
     );
@@ -114,6 +118,7 @@ Game.PropTypes = {
   gamePaused: PropTypes.bool,
   gameLoading: PropTypes.bool,
   onSetGamePause: PropTypes.func.isRequired,
+  atScene: PropTypes.string.isRequired,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -126,7 +131,8 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   gamePaused: selectGamePaused(),
   gameLoading: selectGameLoading(), // TODO: do i really need this here, look at this when scene switching is done
-  playerHealth: selectPlayerHealth()
+  playerHealth: selectPlayerHealth(),
+  atScene: selectPlayerAtScene()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

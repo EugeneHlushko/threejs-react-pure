@@ -5,51 +5,61 @@ import {
   PLAYER_MODIFY_SPEED,
   PLAYER_RESET_HEALTH,
   PLAYER_RESET_SPEED,
+  PLAYER_MODIFY_POSITION,
 } from './constants';
+import { Vector3 } from 'three';
 import debug from 'debug';
 
-// The initial state of the Player object. Might be loaded from DB for saved profile and have different values,
+// The initial state of the Player object. Will be saved/loaded from DB for saved profile and have different values,
 // inventory and other things in it.
 const initialState = {
+  // System related
+  atScene: 'Level1',
+  // Motion related, for playing animations and world coordinates
   motion: PLAYER_IS_STANDING,
-  // Should we store position and rotation here or in level? In level looks much more performant
+  position: new Vector3(100, 0, 30),
+  // Attribute related
   health: 500,
   speed: 25,
 };
 
 function playerReducer(state = initialState, action) {
-  debug.enable('PlayerRdcr');
-
   switch (action.type) {
     case PLAYER_SET_MOTION:
-      debug('PlayerRdcr')(`Setting motion of the player to: ${action.motion}`);
+      debug('Player')(`Setting motion of the player to: ${action.motion}`);
       return {
         ...state,
         motion: action.motion,
       };
     case PLAYER_MODIFY_HEALTH:
-      debug('PlayerRdcr')(`Affecting health PLAYER_MODIFY_HEALTH to ${action.payload}`);
+      debug('Player')(`Affecting health PLAYER_MODIFY_HEALTH to ${action.payload}`);
       return {
         ...state,
         health: state.health + action.payload,
       };
     case PLAYER_MODIFY_SPEED:
-      debug('PlayerRdcr')(`Affecting speed PLAYER_MODIFY_SPEED to ${action.payload}`);
+      debug('Player')(`Affecting speed PLAYER_MODIFY_SPEED to ${action.payload}`);
       return {
         ...state,
         speed: state.speed + action.payload,
       };
     case PLAYER_RESET_HEALTH:
-      debug('PlayerRdcr')(`PLAYER_RESET_HEALTH called, setting to default ${initialState.health}`);
+      debug('Player')(`PLAYER_RESET_HEALTH called, setting to default ${initialState.health}`);
       return {
         ...state,
         health: initialState.health
       };
     case PLAYER_RESET_SPEED:
-      debug('PlayerRdcr')(`PLAYER_RESET_SPEED called, setting to default ${initialState.speed}`);
+      debug('Player')(`PLAYER_RESET_SPEED called, setting to default ${initialState.speed}`);
       return {
         ...state,
         speed: initialState.speed
+      };
+    case PLAYER_MODIFY_POSITION:
+      debug('Player')(`PLAYER_MODIFY_POSITION called, setting to new value ${action.position}`);
+      return {
+        ...state,
+        position: action.position
       };
     default:
       return state;

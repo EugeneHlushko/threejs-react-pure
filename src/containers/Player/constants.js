@@ -7,6 +7,7 @@ export const PLAYER_SET_MOTION = 'App/Player/constants/PLAYER_SET_MOTION';
 // modification actions
 export const PLAYER_MODIFY_HEALTH = 'App/Player/constants/PLAYER_MODIFY_HEALTH';
 export const PLAYER_MODIFY_SPEED = 'App/Player/constants/PLAYER_MODIFY_SPEED';
+export const PLAYER_MODIFY_POSITION = 'App/Player/constants/PLAYER_MODIFY_POSITION';
 
 // resetting actions
 export const PLAYER_RESET_HEALTH = 'App/Player/constants/PLAYER_RESET_HEALTH';

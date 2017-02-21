@@ -1,4 +1,5 @@
 import ExtendableLevel from 'containers/ExtendableLevel';
+import debug from 'debug';
 
 import {
   Clock,
@@ -13,7 +14,6 @@ import {
   CubeGeometry,
   MeshPhongMaterial,
 } from 'three';
-import debug from 'debug';
 import { loadTexture } from 'utils/loaders';
 
 // Meshes/spawners

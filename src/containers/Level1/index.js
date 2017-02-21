@@ -1,4 +1,8 @@
 import ExtendableLevel from 'containers/ExtendableLevel';
+import { selectPlayerPosition } from '../Player/selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import debug from 'debug';
 
 import {
   Clock,
@@ -14,8 +18,10 @@ import {
   CubeGeometry,
   MeshPhongMaterial,
 } from 'three';
-import debug from 'debug';
 import { loadTexture } from 'utils/loaders';
+
+// Player
+import Player from 'containers/Player';
 
 // helpers
 import {
@@ -38,6 +44,7 @@ class Level1 extends ExtendableLevel {
     this.textures = {
       floor: {},
     };
+    window.TESTME = this;
     debug.enable('Level1');
   };
 
@@ -60,6 +67,7 @@ class Level1 extends ExtendableLevel {
     // init camera and renderer
     this.initCamera();
     this.initRenderer();
+    this.initPlayer();
     this.initLights();
     this.initStats();
     this.initControls();
@@ -99,6 +107,13 @@ class Level1 extends ExtendableLevel {
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
+  // TODO: move to absctract class?
+  initPlayer = () => {
+    this.player = new Player(this.props.playerPosition);
+    this.player.manualMount();
+    this.scene.add(this.player.body);
   };
 
   initLights = () => {
@@ -213,9 +228,15 @@ class Level1 extends ExtendableLevel {
 
   // being called with animate in extended class
   update = () => {
+    // update player
+    this.player.update();
     // update glow
     this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
   };
 }
 
-export default Level1;
+const mapStateToProps = createStructuredSelector({
+  playerPosition: selectPlayerPosition(),
+});
+
+export default connect(mapStateToProps)(Level1);

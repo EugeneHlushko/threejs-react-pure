@@ -5,10 +5,10 @@ import {
 import debug from 'debug';
 
 // The initial state of the App
+// TODO: Move game related things into game reducer, we will keep game related things in there.
 const initialState = {
   gamePaused: false,
   gameLoading: false,
-  loading: false,
   error: false,
 };
 

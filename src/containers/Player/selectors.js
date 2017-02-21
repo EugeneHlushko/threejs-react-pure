@@ -21,9 +21,21 @@ const selectPlayerSpeed = () => createSelector(
   (playerState) => playerState.speed
 );
 
+const selectPlayerPosition = () => createSelector(
+  selectPlayer(),
+  (playerState) => playerState.position
+);
+
+const selectPlayerAtScene = () => createSelector(
+  selectPlayer(),
+  (playerState) => playerState.atScene
+);
+
 export {
   selectPlayer,
   selectMotion,
   selectPlayerHealth,
   selectPlayerSpeed,
+  selectPlayerPosition,
+  selectPlayerAtScene,
 };
