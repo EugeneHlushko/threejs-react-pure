@@ -104,7 +104,7 @@ class Game extends Component {
           {
             dialog ?
               <Dialog
-                text={ 'WASD to move. U to load level1, O to load level 2' }
+                text={ 'WASD to move. U to load level1, P to load level 2' }
                 options={ [ { id: 'fsa', text: 'Got it!'}, { id: 'fsass', text: 'Dont show again'} ] }
                 answerCallBack={ this.answerHandler } /> : ''
           }
