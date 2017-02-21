@@ -1,4 +1,4 @@
-# WebGL boilerplate for scene based experiments powered by React ES7/ES7 and Three.js 
+# WebGL boilerplate for scene based experiments powered by React ES6/ES7 and Three.js 
 
 ### Running the boilerplate
 1) `npm i` - first install dependencies  
