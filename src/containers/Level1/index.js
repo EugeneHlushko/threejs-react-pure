@@ -82,10 +82,10 @@ class Level1 extends ExtendableLevel {
 
   initCamera = () => {
     this.camera = new PerspectiveCamera(
-      60,
+      45,
       window.innerWidth / window.innerHeight,
-      0.1,
-      1000
+      1,
+      500
     );
     // camera position
     this.camera.position.set(0, 150, 100);
@@ -124,61 +124,61 @@ class Level1 extends ExtendableLevel {
     this.lightSpawner = new StreetLight(this.camera.position);
     this.streetLights = [];
     const lightsPositions = [
-      // {
-      //   x: -490,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -392,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -294,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -196,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: -98,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 0,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 100,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 197,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 295,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 392,
-      //   y: -20,
-      //   z: -490,
-      // },
-      // {
-      //   x: 490,
-      //   y: -20,
-      //   z: -490,
-      // },
+      {
+        x: -490,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -392,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -294,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -196,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: -98,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 0,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 100,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 197,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 295,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 392,
+        y: -20,
+        z: -490,
+      },
+      {
+        x: 490,
+        y: -20,
+        z: -490,
+      },
       // the central one
       {
         x: 100,

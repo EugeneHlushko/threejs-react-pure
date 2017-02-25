@@ -1,7 +1,6 @@
 import {
   SphereGeometry,
   CylinderGeometry,
-  MeshPhongMaterial,
   MeshStandardMaterial,
   FlatShading,
   Mesh,
@@ -12,9 +11,8 @@ import {
   FrontSide,
   AdditiveBlending,
   Color,
-  Vector3,
 } from 'three';
-import debug from 'debug';
+
 import { bulbLightPowers } from 'helpers/units';
 import glowFragmentShader from 'shaders/glow/GlowFragment';
 import glowVertexShader from 'shaders/glow/GlowVertex';
@@ -31,26 +29,23 @@ export default class StreetLight {
     this.lightColor = 0xe5ffff;
     this.shaderLight = 0x2ab6ff;
 
+    // Geometry and material to be reused on poles
     this.geometry = new CylinderGeometry(
       4, // radius top
       4, // radius bottom
       this.geoHeight, // height
       4 // radius segments
     );
-    this.material = new MeshPhongMaterial({
+    this.material = new MeshStandardMaterial({
       color: 0x0b0902,
-      specular: 0x0b0902,
-      shininess: 10,
       shading: FlatShading,
     });
-    this.pole = new Mesh(this.geometry, this.material);
-    this.pole.castShadow = this.pole.receiveShadow = false;
 
     // TODO: Why bulb is not glowing? Emissive shouldnt solve this problem ?
     // SphereBufferGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
     this.sphereGeometry = new SphereGeometry(this.sphereSize, this.sphereSegs, this.sphereSegs);
     this.glowGeometry = new SphereGeometry(this.sphereSize * this.glowScale, this.sphereSegs, this.sphereSegs);
-    const sphereMaterial = new MeshStandardMaterial({
+    this.sphereMaterial = new MeshStandardMaterial({
       emissive: 0x046ca2,
       emissiveIntensity: 1,
       color: 0x046ca2,
@@ -58,11 +53,6 @@ export default class StreetLight {
       blending: AdditiveBlending,
       side: FrontSide,
     });
-
-    this.light = new PointLight(this.lightColor, bulbLightPowers['25W'], 500);
-    this.light.castShadow = true;
-    this.lampBulb = new Mesh(this.sphereGeometry, sphereMaterial);
-    this.light.add(this.lampBulb);
 
     // generate shader metarial
     this.glowMaterial = new ShaderMaterial(
@@ -92,34 +82,32 @@ export default class StreetLight {
         transparent: true
       }
     );
-
-    this.glow = new Mesh(this.glowGeometry, this.glowMaterial);
   }
 
   createSpawn(position) {
     const currentLight = new Group();
-    const pole = this.pole.clone();
+    // Pole
+    const pole = new Mesh(this.geometry, this.material);
     pole.position.y = this.geoHeight / 2;
+    // pole.castShadow = true;
     currentLight.add(pole);
 
-    const light = this.light.clone();
+    // Light Bulb and Point Light source
+    const light = new PointLight(this.lightColor, bulbLightPowers['25W'], 250);
+    // light.castShadow = true;
+    const lampBulb = new Mesh(this.sphereGeometry, this.sphereMaterial);
+    light.add(lampBulb);
     light.position.y = (this.sphereSize / 2 + this.geoHeight) + 2;
     currentLight.add(light);
 
-    currentLight.theGlow = this.glow.clone();
-    currentLight.theGlow.position.y = light.position.y;
-    // currentLight.theGlow.position.z = light.position.z + 20;
-    // currentLight.theGlow.position.x = light.position.x + 30;
-    currentLight.add(currentLight.theGlow);
+    // opaque shader based bulb
+    const glow = new Mesh(this.glowGeometry, this.glowMaterial);
+    glow.position.y = currentLight.children[1].position.y;
+    currentLight.add(glow);
 
     currentLight.onUpdateCB = function(cameraPosition) {
-      if (!this.debug) {
-        debug('CpStreetLight')('getting update');
-        debug('CpStreetLight')(this);
-        this.debug = 'done';
-      }
-      this.theGlow.material.uniforms.viewVector.value = new Vector3().subVectors(cameraPosition, this.theGlow.position);
-    };
+      // currentLight.children[2].material.uniforms.viewVector.value = new Vector3().subVectors(cameraPosition, currentLight.children[2].position);
+    }.bind(currentLight);
 
     currentLight.position.copy(position);
     return currentLight;
