@@ -42,11 +42,11 @@
     - Player/enemy Jumping
 
 #### TODO:
+- Intersection between objects
 - Dialog: text and options, callback for choice done.
 - Player object: TODO: Receive Model from modeler;
-- Player controls: moving player over the map with wasd
 - Player movement: move over terrain height
-- Simple default level switch to next
+- Simple default level switch to next - this requires dialog
 - Add way to include shaderpass
 - Add a way to preload and use models in scenes for objects
 - Reactotron or similar for most convinient redux development experience
@@ -60,6 +60,7 @@
 - Deploy to Zeit's `now` to share your experiments with folks
 
 #### Done:
+- ~~Player controls: moving player over the map with wasd~~
 - ~~Add src to path lookup to avoid `../../xx` imports~~
 - ~~Define scope for BP~~
 - ~~Player reducer~~

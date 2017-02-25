@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import { PureComponent, PropTypes } from 'react';
 import debug from 'debug';
 
 import { selectPlayerPosition, selectPlayerSpeed } from './selectors';
@@ -19,7 +19,7 @@ import {
 
 // require player as an empty react component. where render function would be empty and component would never be re-rendered
 // shouldComponentUpdate() => false;
-class Player extends Component {
+class Player extends PureComponent {
   constructor() {
     super();
 
@@ -103,9 +103,9 @@ class Player extends Component {
 
   update = () => {
     const { keysDown } = this.state;
-    const { speed, onPlayerSetPosition } = this.props;
     // only move in one direction
     if (keysDown.length > 0 && keysDown.length < 3) {
+      const { speed, onPlayerSetPosition } = this.props;
       debug('Player')('Yes pressed keys are', keysDown);
       // TODO: have a dispatcher
       // TODO: have speed as a prop, always up to date with player reducer.

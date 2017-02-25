@@ -3,6 +3,8 @@ import debug from 'debug';
 
 import {
   PerspectiveCamera,
+  WebGLRenderer,
+  ReinhardToneMapping,
   // TODO:Controls Orbit Controls refactoring subject
   MOUSE,
   EventDispatcher,
@@ -65,6 +67,19 @@ class ExtendableLevel extends PureComponent {
     this.textures[textureName][key] = texture;
   };
 
+  initRenderer = () => {
+    // RENDERER
+    this.renderer = new WebGLRenderer({ antialias: true, canvas: this.refs.canvas });
+    this.renderer.physicallyCorrectLights = true;
+    this.renderer.gammaInput = true;
+    this.renderer.gammaOutput = true;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.toneMapping = ReinhardToneMapping;
+
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
   // TODO:Eject Should only be inited in development mode. Need to receive environmental param
   initStats = () => {
     this.stats = new Stats(0);
@@ -87,8 +102,7 @@ class ExtendableLevel extends PureComponent {
   animate = () => {
     this.animationFrame = window.requestAnimationFrame(this.animate);
     // take care of pause
-    const { gamePaused } = this.props;
-    if (gamePaused) return;
+    if (this.props.gamePaused) return;
 
     this.renderer.render(this.scene, this.camera);
     this.stats.begin();

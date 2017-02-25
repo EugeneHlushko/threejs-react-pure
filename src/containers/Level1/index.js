@@ -9,10 +9,8 @@ import { createStructuredSelector } from 'reselect';
 import {
   Clock,
   PerspectiveCamera,
-  WebGLRenderer,
   Scene,
   Fog,
-  ReinhardToneMapping,
   HemisphereLight,
   Vector3,
   // TODO: Cleanup
@@ -94,19 +92,6 @@ class Level1 extends ExtendableLevel {
     this.camera.rotation.set(-1, 0, 0);
     this.scene = new Scene();
     this.scene.fog = new Fog(0xa2d6ca, 1, 1000);
-  };
-
-  initRenderer = () => {
-    // RENDERER
-    this.renderer = new WebGLRenderer({ antialias: true, canvas: this.refs.canvas });
-    this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.toneMapping = ReinhardToneMapping;
-
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
   initPlayer = () => {
