@@ -14,9 +14,17 @@ import {
 import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
 
+// Player
+import Player from 'containers/Player';
+
 class ExtendableLevel extends PureComponent {
   constructor() {
     super();
+    this.state = {
+      playerBody: false,
+      playerUpdate: null,
+    };
+
     debug.enable('CurrentLevel');
   };
 
@@ -91,11 +99,14 @@ class ExtendableLevel extends PureComponent {
   // Implemented in the Level, might need level specific shader, geometry or other things update.
   update() {}
 
+  revealPlayerPrivates = (playerBody, playerUpdate) => {
+    this.setState({ playerBody, playerUpdate });
+  };
+
   render() {
-    return (<canvas ref='canvas'></canvas>);
+    return (<canvas ref='canvas'><Player revealPlayerPrivates={ this.revealPlayerPrivates } /></canvas>);
   };
 }
-
 ExtendableLevel.PropTypes = {
   onSetLoading: PropTypes.func.isRequired,
 };

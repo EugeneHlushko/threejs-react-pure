@@ -1,5 +1,10 @@
-import { PureComponent } from 'react';
+import { Component, PropTypes } from 'react';
 import debug from 'debug';
+
+import { selectPlayerPosition, selectPlayerSpeed } from './selectors';
+import { playerSetPosition } from './actions';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import {
   CylinderGeometry,
@@ -11,27 +16,36 @@ import {
 
 // Maybe player can be required from Game container and "stalled" when not needed to not reload his necessary assets
 // and do binding all the time? need to consider this.
-class Player {
-  constructor(position) {
+
+// require player as an empty react component. where render function would be empty and component would never be re-rendered
+// shouldComponentUpdate() => false;
+class Player extends Component {
+  constructor() {
+    super();
+
     this.state = {
       keysDown: [],
-      keysListensFor: [87, 68, 83, 65],
-      position,
+      keysListensFor: [87, 68, 83, 65]
     };
 
-    debug.enable('Player');
-    this.constructSceneObject();
-
-    return this;
+    // debug.enable('Player');
   }
 
-  manualMount = () => {
+  componentDidMount() {
+    this.constructSceneObject();
+    // when body is ready, give back body and update method to parent
+    this.props.revealPlayerPrivates(this.body, this.update);
+
     this.setKeyboardBindings(true);
   };
 
-  manualUnMount = () => {
+  componentWillUnmount() {
     this.setKeyboardBindings(false);
   };
+
+  shouldComponentUpdate() {
+    return false;
+  }
 
   setKeyboardBindings = (add = false) => {
     if (add) {
@@ -61,20 +75,6 @@ class Player {
     }
   };
 
-  update = () => {
-    const { keysDown } = this.state;
-    // only move in one direction
-    if (keysDown.length > 0 && keysDown.length < 3) {
-      debug('Player')('Yes pressed keys are', keysDown);
-      // TODO: have a dispatcher
-      // TODO: have speed as a prop, always up to date with player reducer.
-      if (keysDown.includes(87)) this.body.position.x -= 0.3;
-      if (keysDown.includes(83)) this.body.position.x += 0.3;
-      if (keysDown.includes(68)) this.body.position.z -= 0.3;
-      if (keysDown.includes(65)) this.body.position.z += 0.3;
-    }
-  };
-
   // constructs the model itself, assigns to body of Player object;
   constructSceneObject = () => {
     this.bodyGeometry = new CylinderGeometry(
@@ -94,8 +94,50 @@ class Player {
     this.body = new Mesh(this.bodyGeometry, this.material);
     this.body.castShadow = this.body.receiveShadow = true;
 
-    this.body.position.copy(this.state.position);
+    debug('Player')('Position?');
+    debug('Player')(this.props.position);
+    debug('Player')(this.body);
+
+    this.body.position.copy(this.props.position);
+  };
+
+  update = () => {
+    const { keysDown } = this.state;
+    const { speed, onPlayerSetPosition } = this.props;
+    // only move in one direction
+    if (keysDown.length > 0 && keysDown.length < 3) {
+      debug('Player')('Yes pressed keys are', keysDown);
+      // TODO: have a dispatcher
+      // TODO: have speed as a prop, always up to date with player reducer.
+      if (keysDown.includes(87)) this.body.position.z -= speed;
+      if (keysDown.includes(83)) this.body.position.z += speed;
+      if (keysDown.includes(68)) this.body.position.x += speed;
+      if (keysDown.includes(65)) this.body.position.x -= speed;
+
+      onPlayerSetPosition(this.body.position);
+    }
+  };
+
+  render() {
+    return null;
   };
 }
 
-export default Player;
+Player.PropTypes = {
+  position: PropTypes.object.isRequired,
+  speed: PropTypes.number.isRequired,
+  revealPlayerPrivates: PropTypes.func.isRequired,
+};
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    onPlayerSetPosition: (position) => dispatch(playerSetPosition(position)),
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  position: selectPlayerPosition(),
+  speed: selectPlayerSpeed(),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

@@ -1,8 +1,10 @@
+import { PropTypes } from 'react';
 import ExtendableLevel from 'containers/ExtendableLevel';
-import { selectPlayerPosition } from '../Player/selectors';
+import debug from 'debug';
+
+import { selectPlayerPosition } from 'containers/Player/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import debug from 'debug';
 
 import {
   Clock,
@@ -19,9 +21,6 @@ import {
   MeshPhongMaterial,
 } from 'three';
 import { loadTexture } from 'utils/loaders';
-
-// Player
-import Player from 'containers/Player';
 
 // helpers
 import {
@@ -90,8 +89,9 @@ class Level1 extends ExtendableLevel {
       0.1,
       1000
     );
-    this.camera.position.set(160.589269816623, 78.04453061683152, 31.993717352721255);
-    this.camera.rotation.set(2.32315, -0.2972, -2.83836);
+    // camera position
+    this.camera.position.set(0, 150, 100);
+    this.camera.rotation.set(-1, 0, 0);
     this.scene = new Scene();
     this.scene.fog = new Fog(0xa2d6ca, 1, 1000);
   };
@@ -109,11 +109,8 @@ class Level1 extends ExtendableLevel {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
-  // TODO: move to absctract class?
   initPlayer = () => {
-    this.player = new Player(this.props.playerPosition);
-    this.player.manualMount();
-    this.scene.add(this.player.body);
+    this.scene.add(this.state.playerBody);
   };
 
   initLights = () => {
@@ -228,15 +225,26 @@ class Level1 extends ExtendableLevel {
 
   // being called with animate in extended class
   update = () => {
+    const { position } = this.props;
     // update player
-    this.player.update();
+    this.state.playerUpdate();
+    this.camera.position.x = position.x;
+    this.camera.position.z = position.z + 100;
+    // TODO: remove when disable orbit controls, or just disable rotation on player controls;
+    this.camera.rotation.set(-1,0,0);
+
     // update glow
     this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
   };
 }
 
+Level1.PropTypes = {
+  ...Level1.PropTypes,
+  position: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = createStructuredSelector({
-  playerPosition: selectPlayerPosition(),
+  position: selectPlayerPosition(),
 });
 
 export default connect(mapStateToProps)(Level1);

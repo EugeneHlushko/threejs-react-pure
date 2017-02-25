@@ -20,7 +20,7 @@ const initialState = {
   position: new Vector3(100, 0, 30),
   // Attribute related
   health: 500,
-  speed: 25,
+  speed: 1.2,
 };
 
 function playerReducer(state = initialState, action) {
