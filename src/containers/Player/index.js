@@ -12,6 +12,7 @@ import {
   FaceColors,
   FlatShading,
   Mesh,
+  Vector3,
 } from 'three';
 
 // Maybe player can be required from Game container and "stalled" when not needed to not reload his necessary assets
@@ -25,9 +26,12 @@ class Player extends PureComponent {
 
     this.state = {
       keysDown: [],
-      keysListensFor: [87, 68, 83, 65]
+      keysListensFor: [87, 68, 83, 65],
+      targetY: 0
     };
 
+    this.height = 40;
+    this.halfHeight = this.height / 2;
     // debug.enable('Player');
   }
 
@@ -80,7 +84,7 @@ class Player extends PureComponent {
     this.bodyGeometry = new CylinderGeometry(
       4, // radius top
       4, // radius bottom
-      40,
+      this.height,
       8 // radius segments
     );
     this.material = new MeshPhongMaterial({
@@ -92,11 +96,7 @@ class Player extends PureComponent {
       shading: FlatShading
     });
     this.body = new Mesh(this.bodyGeometry, this.material);
-    this.body.castShadow = this.body.receiveShadow = true;
-
-    debug('Player')('Position?');
-    debug('Player')(this.props.position);
-    debug('Player')(this.body);
+    this.body.castShadow = true;
 
     this.body.position.copy(this.props.position);
   };
@@ -105,14 +105,30 @@ class Player extends PureComponent {
     const { keysDown } = this.state;
     // only move in one direction
     if (keysDown.length > 0 && keysDown.length < 3) {
-      const { speed, onPlayerSetPosition } = this.props;
+      const { speed, onPlayerSetPosition, rayCastToGround } = this.props;
+      const { position } = this.body;
       debug('Player')('Yes pressed keys are', keysDown);
-      // TODO: have a dispatcher
-      // TODO: have speed as a prop, always up to date with player reducer.
-      if (keysDown.includes(87)) this.body.position.z -= speed;
-      if (keysDown.includes(83)) this.body.position.z += speed;
-      if (keysDown.includes(68)) this.body.position.x += speed;
-      if (keysDown.includes(65)) this.body.position.x -= speed;
+
+      if (keysDown.includes(87)) position.z -= speed;
+      if (keysDown.includes(83)) position.z += speed;
+      if (keysDown.includes(68)) position.x += speed;
+      if (keysDown.includes(65)) position.x -= speed;
+
+      const intersectionY = rayCastToGround(
+        position,
+        new Vector3(position.x, -250, position.z).normalize()
+      );
+
+      debug('CurrentLevel')('Distance was');
+      debug('CurrentLevel')(intersectionY);
+
+      // TODO: this works for all cases?
+      const diff = Math.abs(position.y - intersectionY);
+      if (diff > this.halfHeight) {
+        position.y -= diff - this.halfHeight;
+      } else if (diff < this.halfHeight) {
+        position.y += this.halfHeight - diff;
+      }
 
       onPlayerSetPosition(this.body.position);
     }
@@ -125,6 +141,7 @@ class Player extends PureComponent {
 
 Player.PropTypes = {
   position: PropTypes.object.isRequired,
+  rayCastToGround: PropTypes.func.isRequired,
   speed: PropTypes.number.isRequired,
   revealPlayerPrivates: PropTypes.func.isRequired,
 };

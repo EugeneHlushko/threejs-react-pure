@@ -49,10 +49,10 @@ class Ground {
       this.floorMat
     );
 
-    floor.position.set(0, 0.0, 0);
+    floor.position.set(0, 0, 0);
     floor.scale.set(size, size, size);
     floor.rotation.set(- Math.PI * 0.5, 0, 0);
-    floor.receiveShadow = true;
+    floor.receiveShadow = false;
     this.ground = floor;
 
     textureMapTypes.map(this.setTexture);

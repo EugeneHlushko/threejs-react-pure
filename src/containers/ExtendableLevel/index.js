@@ -5,6 +5,7 @@ import {
   PerspectiveCamera,
   WebGLRenderer,
   ReinhardToneMapping,
+  Raycaster,
   // TODO:Controls Orbit Controls refactoring subject
   MOUSE,
   EventDispatcher,
@@ -26,6 +27,7 @@ class ExtendableLevel extends PureComponent {
       playerBody: false,
       playerUpdate: null,
     };
+    this.raycaster = new Raycaster();
 
     debug.enable('CurrentLevel');
   };
@@ -113,12 +115,24 @@ class ExtendableLevel extends PureComponent {
   // Implemented in the Level, might need level specific shader, geometry or other things update.
   update() {}
 
+  // return gound Y value
+  rayCastToGround = (origin, direction) => {
+    this.raycaster.set(origin, direction);
+
+    const intersects = this.raycaster.intersectObject(this.ground);
+    return intersects.length > 0 ? intersects[0].point.y : 0;
+  };
+
   revealPlayerPrivates = (playerBody, playerUpdate) => {
     this.setState({ playerBody, playerUpdate });
   };
 
   render() {
-    return (<canvas ref='canvas'><Player revealPlayerPrivates={ this.revealPlayerPrivates } /></canvas>);
+    return (<canvas ref='canvas'>
+      <Player
+        rayCastToGround={ this.rayCastToGround }
+        revealPlayerPrivates={ this.revealPlayerPrivates } />
+    </canvas>);
   };
 }
 ExtendableLevel.PropTypes = {

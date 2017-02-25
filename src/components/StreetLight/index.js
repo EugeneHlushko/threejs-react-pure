@@ -84,17 +84,17 @@ export default class StreetLight {
     );
   }
 
-  createSpawn(position) {
+  createSpawn(position, options) {
     const currentLight = new Group();
     // Pole
     const pole = new Mesh(this.geometry, this.material);
     pole.position.y = this.geoHeight / 2;
-    // pole.castShadow = true;
+    if (options.castShadowPole) pole.castShadow = true;
     currentLight.add(pole);
 
     // Light Bulb and Point Light source
     const light = new PointLight(this.lightColor, bulbLightPowers['25W'], 250);
-    // light.castShadow = true;
+    if (options.castShadowLight) light.castShadow = true;
     const lampBulb = new Mesh(this.sphereGeometry, this.sphereMaterial);
     light.add(lampBulb);
     light.position.y = (this.sphereSize / 2 + this.geoHeight) + 2;

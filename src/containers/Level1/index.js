@@ -41,6 +41,7 @@ class Level1 extends ExtendableLevel {
     this.textures = {
       floor: {},
     };
+
     window.TESTME = this;
     debug.enable('Level1');
   };
@@ -184,11 +185,18 @@ class Level1 extends ExtendableLevel {
         x: 100,
         y: -20,
         z: 0,
+        castShadowLight: true,
       },
     ];
 
-    lightsPositions.forEach(pos => {
-      let currentLight = this.lightSpawner.createSpawn(new Vector3(pos.x, pos.y, pos.z), this.camera.position);
+    lightsPositions.forEach(lightSettings => {
+      let currentLight = this.lightSpawner.createSpawn(
+        new Vector3(lightSettings.x, lightSettings.y, lightSettings.z),
+        {
+          castShadowPole: lightSettings.castShadowPole || false,
+          castShadowLight: lightSettings.castShadowLight || false
+        }
+      );
       this.scene.add(currentLight);
       this.streetLights.push(currentLight);
     });
@@ -213,9 +221,10 @@ class Level1 extends ExtendableLevel {
     const { position } = this.props;
     // update player
     this.state.playerUpdate();
+
+    // TODO: remove when disable orbit controls, or just disable rotation on player controls;
     this.camera.position.x = position.x;
     this.camera.position.z = position.z + 100;
-    // TODO: remove when disable orbit controls, or just disable rotation on player controls;
     this.camera.rotation.set(-1,0,0);
 
     // update glow

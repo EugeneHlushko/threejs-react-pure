@@ -45,7 +45,6 @@
 - Intersection between objects
 - Dialog: text and options, callback for choice done.
 - Player object: TODO: Receive Model from modeler;
-- Player movement: move over terrain height
 - Simple default level switch to next - this requires dialog
 - Add way to include shaderpass
 - Add a way to preload and use models in scenes for objects
@@ -60,6 +59,7 @@
 - Deploy to Zeit's `now` to share your experiments with folks
 
 #### Done:
+- ~~Player movement: move over terrain height~~
 - ~~Player controls: moving player over the map with wasd~~
 - ~~Add src to path lookup to avoid `../../xx` imports~~
 - ~~Define scope for BP~~
