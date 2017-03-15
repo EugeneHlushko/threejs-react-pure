@@ -17,8 +17,13 @@ import {
   Mesh,
   CubeGeometry,
   MeshPhongMaterial,
+  // TODO: cleanup after model moved to player
+  SkinnedMesh,
 } from 'three';
 import { loadTexture } from 'utils/loaders';
+import ColladaLoader from 'utils/collada';
+import Animation from 'utils/collada/Animation';
+import AnimationHandler from 'utils/collada/AnimationHandler';
 
 // helpers
 import {
@@ -35,12 +40,16 @@ import TextureDesert from 'assets/images/desert.png';
 import TextureDesert_Bump from 'assets/images/desert_bump.png';
 import TextureDesert_Roughness from 'assets/images/desert_roughness.png';
 
+import PlayerModelFile from 'assets/models/Max_Walk_0006.dae';
+
 class Level1 extends ExtendableLevel {
   constructor() {
     super();
     this.textures = {
       floor: {},
     };
+
+    this.dae = false;
 
     window.TESTME = this;
     debug.enable('Level1');
@@ -71,6 +80,7 @@ class Level1 extends ExtendableLevel {
     this.initControls();
     this.initGround();
     this.initObjects();
+    this.initPlayerModel();
 
     this.clock.start();
 
@@ -115,6 +125,29 @@ class Level1 extends ExtendableLevel {
     this.scene.add(this.ground);
 
     this.camera.lookAt(this.ground.position);
+  };
+
+  initPlayerModel = () => {
+    const loader = new ColladaLoader();
+    loader.options.convertUpAxis = true;
+    loader.load(PlayerModelFile, (collada) => { this.playerModelLoaded(collada) });
+  };
+
+  playerModelLoaded = (collada) => {
+    this.dae = collada.scene;
+
+    this.dae.traverse(function (child) {
+
+      if (child instanceof SkinnedMesh) {
+        const animation = new Animation(child, child.geometry.animation);
+        animation.play();
+      }
+    });
+
+    this.dae.scale.x = this.dae.scale.y = this.dae.scale.z = 20;
+    this.dae.updateMatrix();
+
+    this.scene.add(this.dae);
   };
 
   initObjects = () => {
@@ -229,6 +262,8 @@ class Level1 extends ExtendableLevel {
 
     // update glow
     this.streetLights.map(streetLight => streetLight.onUpdateCB(this.camera.position));
+
+    AnimationHandler.update( this.clock.getDelta() );
   };
 }
 
