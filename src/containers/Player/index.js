@@ -13,7 +13,11 @@ import {
   FlatShading,
   Mesh,
   Vector3,
+  Group,
+  JSONLoader,
 } from 'three';
+
+import PlayerModel from 'assets/models/flamingo';
 
 // Maybe player can be required from Game container and "stalled" when not needed to not reload his necessary assets
 // and do binding all the time? need to consider this.
@@ -32,7 +36,8 @@ class Player extends PureComponent {
 
     this.height = 40;
     this.halfHeight = this.height / 2;
-    // debug.enable('Player');
+
+    this.JSONloader = new JSONLoader();
   }
 
   componentDidMount() {
@@ -81,22 +86,27 @@ class Player extends PureComponent {
 
   // constructs the model itself, assigns to body of Player object;
   constructSceneObject = () => {
-    this.bodyGeometry = new CylinderGeometry(
-      4, // radius top
-      4, // radius bottom
-      this.height,
-      8 // radius segments
-    );
-    this.material = new MeshPhongMaterial({
-      color: 0xFF5300,
-      specular: 0x3BA200,
+    this.model = this.JSONloader.parse(PlayerModel);
+    const material = new MeshPhongMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
       shininess: 20,
       morphTargets: true,
       vertexColors: FaceColors,
-      shading: FlatShading
-    });
-    this.body = new Mesh(this.bodyGeometry, this.material);
-    this.body.castShadow = true;
+      shading: FlatShading });
+
+    this.mesh = new Mesh(this.model.geometry, material);
+    const s = 0.5;
+    this.mesh.scale.set(s, s, s);
+    this.mesh.position.y = 5;
+    this.mesh.position.z = 50;
+    this.mesh.rotation.y = -3.15;
+    //this.mesh.rotation.z = -1;
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+
+    this.body = new Group();
+    this.body.add(this.mesh);
 
     this.body.position.copy(this.props.position);
   };
