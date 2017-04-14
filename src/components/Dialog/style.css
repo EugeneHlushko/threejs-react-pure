@@ -1,13 +1,17 @@
 .text {
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 0.5em;
+  bottom: 0.5em;
   width: 90%;
   padding: 1em;
   font-size: 2em;
   color: #FFF;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   min-height: 25%;
+  z-index: 50;
+  border: 1px solid #000;
+  border-radius: 0.3em;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .answers {

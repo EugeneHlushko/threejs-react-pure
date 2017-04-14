@@ -61,6 +61,23 @@ class Level2 extends ExtendableLevel {
 
     // start the animation
     this.animate();
+
+    const dialogOptions = [
+      {
+        text: 'Yes',
+        nextLevel: 'Level1'
+      },
+      {
+        text: 'No'
+      }
+    ];
+
+    // give an option to go back
+    this.showDialog(
+      'Want to get back to level1?',
+      this.choiceCallback,
+      dialogOptions
+    );
   };
 
   initCamera = () => {

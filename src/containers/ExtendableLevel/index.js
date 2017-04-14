@@ -1,6 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import debug from 'debug';
 
+import Dialog from 'components/Dialog';
+
 import {
   PerspectiveCamera,
   WebGLRenderer,
@@ -25,7 +27,9 @@ class ExtendableLevel extends PureComponent {
     this.state = {
       playerBody: false,
       playerUpdate: null,
-    };
+      dialog: false
+    }
+
     this.raycaster = new Raycaster();
 
     debug.enable('CurrentLevel');
@@ -114,16 +118,43 @@ class ExtendableLevel extends PureComponent {
     this.setState({ playerBody, playerUpdate });
   };
 
+  showDialog = (text, answerCallBack, options) => {
+    this.setState({ dialog: { text, answerCallBack, options }});
+  };
+
+  removeDialog = () => { this.setState({ dialog: false })};
+
+  choiceCallback = (option) => {
+    if (option.nextLevel) {
+      this.props.getLevel(option.nextLevel);
+    }
+
+    this.removeDialog();
+  };
+
   render() {
-    return (<canvas ref='canvas'>
-      <Player
-        rayCastToGround={ this.rayCastToGround }
-        revealPlayerPrivates={ this.revealPlayerPrivates } />
-    </canvas>);
+    const { dialog } = this.state;
+
+    return (
+      <div>
+        <canvas ref='canvas'>
+          <Player
+            rayCastToGround={ this.rayCastToGround }
+            revealPlayerPrivates={ this.revealPlayerPrivates } />
+        </canvas>
+        {
+          dialog && <Dialog
+            text={ dialog.text }
+            options={ dialog.options }
+            answerCallBack={ dialog.answerCallBack } />
+        }
+      </div>
+      );
   };
 }
 ExtendableLevel.PropTypes = {
   onSetLoading: PropTypes.func.isRequired,
+  getLevel: PropTypes.func.isRequired,
 };
 
 export default ExtendableLevel;

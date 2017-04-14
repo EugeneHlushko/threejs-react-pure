@@ -79,7 +79,7 @@ class Level1 extends ExtendableLevel {
     this.initControls();
     this.initGround();
     this.initObjects();
-    this.initPlayerModel();
+    // this.initPlayerModel();
 
     this.clock.start();
 
@@ -88,6 +88,23 @@ class Level1 extends ExtendableLevel {
 
     // start the animation
     this.animate();
+
+    const dialogOptions = [
+      {
+        text: 'Yes',
+        nextLevel: 'Level2'
+      },
+      {
+        text: 'No'
+      }
+    ];
+
+    // now that we are rolling lets promote a dialog demo and also demonstrate codesplit and level loading
+    this.showDialog(
+      'Navigate with mouse or with WASD keys. If you want to see next scene? Go ahead and try to load level 2 with "p" hotkey, or click "yes"',
+      this.choiceCallback,
+      dialogOptions
+    );
   };
 
   initCamera = () => {

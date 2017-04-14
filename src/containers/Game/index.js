@@ -10,7 +10,6 @@ import staticLevelMap from 'helpers/staticLevelMap';
 
 // additional components
 import InGameMenu from 'components/InGameMenu';
-import Dialog from 'components/Dialog';
 
 // locals
 import './style.css';
@@ -99,6 +98,7 @@ class Game extends Component {
           {
             CurrentLevel ?
               <CurrentLevel
+                getLevel={ this.getLevel }
                 onSetLoading={ onSetLoading } /> : null
           }
         </div>
