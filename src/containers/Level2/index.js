@@ -50,7 +50,6 @@ class Level2 extends ExtendableLevel {
     // init camera and renderer
     this.initCamera();
     this.initRenderer();
-    this.initStats();
     this.initControls();
     this.initGround();
     this.initObjects();

@@ -21,7 +21,6 @@ import {
 } from 'three';
 import debug from 'debug';
 import { loadTexture } from 'utils/loaders';
-import Stats from 'stats.js';
 import OrbitControls from 'three-orbit-controls';
 import { setGamePause, setGameLoading } from '../App/actions';
 import { selectGamePaused, selectGameLoading } from '../App/selectors';
@@ -80,7 +79,6 @@ class GameTemp extends Component {
     cancelAnimationFrame(this.animationFrame);
     this.scene = null;
     this.renderer = null;
-    this.stats.domElement.outerHTML = '';
     // dont forget to unbind the keys
     this.setKeyboardBindings(false);
   }
@@ -98,7 +96,6 @@ class GameTemp extends Component {
     this.initCamera();
     this.initRenderer();
     this.initLights();
-    this.initStats();
     this.initControls();
     this.initGround();
     this.initObjects();
@@ -149,12 +146,6 @@ class GameTemp extends Component {
       hemisphereLightPowers['CityTwilight'] // intensity
     );
     this.scene.add(this.hemiLight);
-  };
-
-  // Should only be inited in development mode.
-  initStats = () => {
-    this.stats = new Stats(0);
-    document.body.appendChild(this.stats.dom);
   };
 
   initControls = () => {
@@ -277,9 +268,7 @@ class GameTemp extends Component {
     if (gamePaused) return;
 
     this.renderer.render(this.scene, this.camera);
-    this.stats.begin();
     this.update();
-    this.stats.end();
   };
 
   update = () => {

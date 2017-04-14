@@ -76,7 +76,6 @@ class Level1 extends ExtendableLevel {
     this.initRenderer();
     this.initPlayer();
     this.initLights();
-    this.initStats();
     this.initControls();
     this.initGround();
     this.initObjects();
